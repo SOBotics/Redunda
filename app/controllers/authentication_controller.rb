@@ -1,4 +1,6 @@
+require 'net/http'
 include AuthenticationHelper
+
 class AuthenticationController < ApplicationController
   def login_redirect_target
     if user_signed_in?
