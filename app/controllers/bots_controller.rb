@@ -32,7 +32,7 @@ class BotsController < ApplicationController
       if @bot.save
         current_user.add_role :owner, @bot
 
-        format.html { redirect_to @bot, notice: 'Bot was successfully created.' }
+        format.html { redirect_to bots_path, notice: 'Bot was successfully created.' }
         format.json { render :show, status: :created, location: @bot }
       else
         format.html { render :new }

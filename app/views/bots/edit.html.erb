@@ -2,5 +2,4 @@
 
 <%= render 'form', bot: @bot %>
 
-<%= link_to 'Show', @bot %> |
-<%= link_to 'Back', bots_path %>
+<%= link_to 'Destroy', @bot, :method => :delete, :data => { :confirm => "Are you sure you want to do this?" } %>
