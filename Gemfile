@@ -6,7 +6,6 @@ git_source(:github) do |repo_name|
 end
 
 gem 'devise'
-gem 'bootstrap-sass', '~> 3.3.6'
 gem 'rolify'
 gem 'awesome_print'
 
