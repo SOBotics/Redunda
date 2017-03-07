@@ -1,0 +1,2 @@
+module BotInstancesHelper
+end
