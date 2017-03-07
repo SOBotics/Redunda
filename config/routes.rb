@@ -4,4 +4,6 @@ Rails.application.routes.draw do
 
   resources :bots
   resources :bot_instances
+
+  get 'authentication/login_redirect_target'
 end
