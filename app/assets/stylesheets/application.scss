@@ -29,3 +29,19 @@
         }
     }
 }
+
+.logo {
+  margin-right: 15px;
+}
+
+.bot-status-okay {
+  color: green;
+}
+
+.bot-status-warn {
+  color: orange;
+}
+
+.bot-status-dead {
+  color: red;
+}
