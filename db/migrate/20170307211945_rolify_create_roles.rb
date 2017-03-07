@@ -12,8 +12,8 @@ class RolifyCreateRoles < ActiveRecord::Migration[5.1]
       t.references :role
     end
 
-    add_index(:roles, :name)
-    add_index(:roles, [ :name, :resource_type, :resource_id ])
+    add_index(:roles, :name, :length => { :name => 100 })
+    add_index(:roles, [ :name, :resource_type, :resource_id ], :length => { :name => 100, :resource_type => 100 })
     add_index(:users_roles, [ :user_id, :role_id ])
   end
 end
