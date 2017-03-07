@@ -24,3 +24,5 @@
 
 config/config.yml
 config/database.yml
+
+.idea/*
