@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   root to: "bots#index"
 
   resources :bots
+  resources :bot_instances
 end
