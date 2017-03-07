@@ -146,6 +146,7 @@ GEM
       ffi (>= 0.5.0)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    rolify (5.1.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
     sass (3.4.23)
@@ -203,6 +204,7 @@ DEPENDENCIES
   mysql2
   puma (~> 3.7)
   rails (~> 5.1.0.beta1)
+  rolify
   sass-rails!
   selenium-webdriver
   spring
@@ -214,4 +216,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.13.7
+   1.14.5
