@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307190845) do
+ActiveRecord::Schema.define(version: 20170307195024) do
+
+  create_table "bot_instances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "bot_id"
+    t.bigint "user_id"
+    t.string "location"
+    t.string "key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_bot_instances_on_bot_id"
+    t.index ["user_id"], name: "index_bot_instances_on_user_id"
+  end
 
   create_table "bots", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -25,4 +36,6 @@ ActiveRecord::Schema.define(version: 20170307190845) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "bot_instances", "bots"
+  add_foreign_key "bot_instances", "users"
 end
