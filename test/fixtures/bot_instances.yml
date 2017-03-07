@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bot: one
+  user: one
+  location: MyString
+  key: MyString
+
+two:
+  bot: two
+  user: two
+  location: MyString
+  key: MyString
