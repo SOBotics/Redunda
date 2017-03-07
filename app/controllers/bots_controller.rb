@@ -1,5 +1,7 @@
 class BotsController < ApplicationController
   before_action :set_bot, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :check_bot_ownership, only: [:edit, :update, :destroy]
 
   # GET /bots
   # GET /bots.json
@@ -28,6 +30,8 @@ class BotsController < ApplicationController
 
     respond_to do |format|
       if @bot.save
+        current_user.add_role :owner, @bot
+
         format.html { redirect_to @bot, notice: 'Bot was successfully created.' }
         format.json { render :show, status: :created, location: @bot }
       else
@@ -70,5 +74,9 @@ class BotsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def bot_params
       params.require(:bot).permit(:name)
+    end
+
+    def check_bot_ownership
+      render :status => :forbidden, :plain => "You don't own this bot" and return unless current_user.has_role? :owner, @bot
     end
 end

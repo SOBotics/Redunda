@@ -1,4 +1,6 @@
 class BotInstance < ApplicationRecord
+  resourcify
+
   belongs_to :bot
   belongs_to :user
 
