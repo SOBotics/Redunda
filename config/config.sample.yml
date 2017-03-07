@@ -1,0 +1,17 @@
+common: &common
+  stack_exchange:
+    client_secret: 'sekrit'
+    client_id: '1234'
+    key: 'key'
+    redirect_uri: 'https://domain.com/authentication/redirect_target'
+    login_redirect_uri: 'https://domain.com/authentication/login_redirect_target'
+
+development:
+  <<: *common
+
+test:
+  <<: *common
+
+production:
+  <<: *common
+
