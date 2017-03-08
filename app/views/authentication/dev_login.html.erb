@@ -1,0 +1,29 @@
+<h3>Sign in as...</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>SE Account ID</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% User.all.each do |user| %>
+      <tr>
+        <td><%= user.username %></td>
+        <td><%= user.stack_exchange_account_id %></td>
+        <td><%= link_to "Login", dev_login_path(:account_id => user.stack_exchange_account_id), :method => :post %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= form_tag dev_login_path, :class => "form-inline" do %>
+  <div class="form-group">
+    <%= label_tag :account_id %>
+    <%= text_field_tag :account_id, "", :class => "form-control" %>
+  </div>
+  <%= submit_tag "Create account", :class => "form-control btn btn-primary" %>
+<% end %>

@@ -4,12 +4,13 @@
       <div class="bot-dash-module col-md-4">
         <h3><%= bot.name %></h3>
         <p><%= bot.description %></p>
-        <p><strong>Instances</strong></p>
+        <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
         <ul>
           <% bot.bot_instances.each do |instance| %>
             <li>
-              <code><%= link_to instance.location, instance %></code>
-              <em>(alive: <span class="<%= instance.status_class %>" title="<%= instance.last_ping %>"><%= time_ago_in_words instance.last_ping %> ago</span>,
+              <code><%= link_to instance.location, url_for(:controller => :bot_instances, :action => :show, :bot_id => bot.id, :id => instance.id) %></code>
+              <em>(alive: <span class="<%= instance.status_class %>" title="<%= instance.last_ping %>">
+                            <%= instance.last_ping.nil? ? "never" : time_ago_in_words(instance.last_ping) + " ago" %></span>,
                    owner: <%= instance.user.username %>)</em>
             </li>
           <% end %>

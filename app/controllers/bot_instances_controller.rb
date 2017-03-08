@@ -1,8 +1,10 @@
 class BotInstancesController < ApplicationController
+  before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
   before_action :set_bot_instance, only: [:show, :edit, :update, :destroy]
 
   def index
-    @bot_instances = BotInstance.all
+    @bot = Bot.find params[:bot_id]
+    @bot_instances = @bot.bot_instances
   end
 
   def show
@@ -17,10 +19,13 @@ class BotInstancesController < ApplicationController
 
   def create
     @bot_instance = BotInstance.new(bot_instance_params)
+    @bot_instance.bot_id = params[:bot_id]
+    @bot_instance.user = current_user
 
     respond_to do |format|
       if @bot_instance.save
-        format.html { redirect_to @bot_instance, notice: 'Bot instance was successfully created.' }
+        format.html { redirect_to url_for(:controller => :bot_instances, :action => :show, :bot_id => params[:bot_id], :id => @bot_instance.id),
+                                  notice: 'Bot instance was successfully created.' }
         format.json { render :show, status: :created, location: @bot_instance }
       else
         format.html { render :new }
@@ -32,7 +37,8 @@ class BotInstancesController < ApplicationController
   def update
     respond_to do |format|
       if @bot_instance.update(bot_instance_params)
-        format.html { redirect_to @bot_instance, notice: 'Bot instance was successfully updated.' }
+        format.html { redirect_to url_for(:controller => :bot_instances, :action => :show, :bot_id => params[:bot_id], :id => @bot_instance.id),
+                                  notice: 'Bot instance was successfully updated.' }
         format.json { render :show, status: :ok, location: @bot_instance }
       else
         format.html { render :edit }
@@ -44,7 +50,7 @@ class BotInstancesController < ApplicationController
   def destroy
     @bot_instance.destroy
     respond_to do |format|
-      format.html { redirect_to bot_instances_url, notice: 'Bot instance was successfully destroyed.' }
+      format.html { redirect_to bot_bot_instances_url(bot_id: params[:bot_id]), notice: 'Bot instance was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -57,6 +63,6 @@ class BotInstancesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def bot_instance_params
-    params.require(:bot_instance).permit(:bot_id, :user_id, :location)
+    params.require(:bot_instance).permit(:location)
   end
 end
