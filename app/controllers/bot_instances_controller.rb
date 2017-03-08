@@ -3,7 +3,8 @@ class BotInstancesController < ApplicationController
   before_action :set_bot_instance, only: [:show, :edit, :update, :destroy]
 
   def index
-    @bot_instances = BotInstance.all
+    @bot = Bot.find params[:bot_id]
+    @bot_instances = @bot.bot_instances
   end
 
   def show
@@ -36,7 +37,8 @@ class BotInstancesController < ApplicationController
   def update
     respond_to do |format|
       if @bot_instance.update(bot_instance_params)
-        format.html { redirect_to @bot_instance, notice: 'Bot instance was successfully updated.' }
+        format.html { redirect_to url_for(:controller => :bot_instances, :action => :show, :bot_id => params[:bot_id], :id => @bot_instance.id),
+                                  notice: 'Bot instance was successfully updated.' }
         format.json { render :show, status: :ok, location: @bot_instance }
       else
         format.html { render :edit }
