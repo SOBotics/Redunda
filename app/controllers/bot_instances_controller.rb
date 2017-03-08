@@ -1,6 +1,8 @@
 class BotInstancesController < ApplicationController
   before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
   before_action :set_bot_instance, only: [:show, :edit, :update, :destroy]
+  before_action :check_instance_permissions, only: [:edit, :update, :destroy]
+  before_action :check_bot_permissions, only: [:new, :create]
 
   def index
     @bot = Bot.find params[:bot_id]
@@ -64,5 +66,21 @@ class BotInstancesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def bot_instance_params
     params.require(:bot_instance).permit(:location)
+  end
+
+  # Checks that a user has permissions (either owner of the bot or owner of the instance) on an instance.
+  # Used before *modifying* an existing instance
+  def check_instance_permissions
+    unless @bot_instance.id == current_user.id or current_user.has_role? :owner, @bot_instance.bot
+      render :status => :forbidden, :plain => "You're not allowed to modify this instance" and return
+    end
+  end
+
+  # Checks that a user has permissions (either owner or collaborator) on a bot.
+  # Used before *creating* a new instance
+  def check_bot_permissions
+    unless current_user.has_role? :owner, @bot_instance.bot or current_user.has_role? :collaborator, @bot_instance.bot
+      render :status => :forbidden, :plain => "You're not allowed to create an instance on this bot" and return
+    end
   end
 end
