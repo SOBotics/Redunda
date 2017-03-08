@@ -1,0 +1,23 @@
+<%= form_for(bot_instance) do |f| %>
+  <% if bot_instance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bot_instance.errors.count, "error") %> prohibited this bot from being saved:</h2>
+
+      <ul>
+        <% bot_instance.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :location %><br/>
+    <span class="text-muted"><em>Something that describes where this instance is running, e.g. <code>ArtOfCode/EC2</code></em></span>
+    <%= f.text_field :location, :class => "form-control" %>
+  </div><br/>
+
+  <div class="actions">
+    <%= f.submit "Save", :class => "btn btn-primary" %>
+  </div>
+<% end %>

@@ -44,7 +44,7 @@ class BotInstancesController < ApplicationController
   def destroy
     @bot_instance.destroy
     respond_to do |format|
-      format.html { redirect_to bot_instances_url, notice: 'Bot instance was successfully destroyed.' }
+      format.html { redirect_to bot_bot_instances_url(bot_id: params[:bot_id]), notice: 'Bot instance was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -57,6 +57,6 @@ class BotInstancesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def bot_instance_params
-    params.require(:bot_instance).permit(:bot_id, :user_id, :location)
+    params.require(:bot_instance).permit(:location)
   end
 end
