@@ -64,6 +64,44 @@ class BotsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  
+  # POST bots/1/collaborators/1
+  def add_collaborator
+      unless Bot.exists?(id: params[:bot])
+        respond_to do |format|
+          format.html { redirect_to index_path, notice: 'That bot ID does not exist.' }
+          format.json { render json: 'That bot ID does not exist.', status: :unprocessable_entity }
+        end
+        return
+      end
+      bot = Bot.find(params[:bot])
+      
+      unless User.exists?(id: params[:collaborator])
+        respond_to do |format|
+          format.html { redirect_to edit_bot_path(bot), notice: 'That user ID does not exist.' }
+          format.json { render json: 'That user ID does not exist.', status: :unprocessable_entity }
+        end
+        return
+      end
+      collaborator = User.find(params[:collaborator])
+        
+        
+      
+      if collaborator.has_role?(:collaborator, bot)
+        respond_to do |format|
+          format.html { redirect_to edit_bot_path(bot), notice: 'That user is already a collaborator.' }
+          format.json { render json: 'That user is already a collaborator.', status: :unprocessable_entity }
+        end
+        return
+      end
+      
+      
+      respond_to do |format|
+        format.html { redirect_to edit_bot_path(bot), notice: 'Collaborator was successfully added.' }
+        format.json { head :no_content }
+      end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

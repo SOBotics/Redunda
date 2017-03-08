@@ -15,8 +15,29 @@
     <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
+  <div class="field">
+      <%= f.label :collaborators %>
+      <ul>
+		<% User.with_role(:collaborator, bot).each do |user| %>
+			<p><%= user.username %> </p>
+		<% end %>
+	  </ul>
+  </div>
 
   <div class="actions">
     <%= f.submit %>
   </div>
+<% end %>
+
+<%= form_tag("/bots/4/collaborators") do %>
+<div class="field">
+    <%= label_tag(:collaborator, "Add Collaborator") %>
+    <%= text_field_tag(:collaborator) %>
+</div>
+
+
+<div class="actions">
+    <%= submit_tag("Add") %>
+</div>
+
 <% end %>

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   resources :bots
   resources :bot_instances
+  
+  post 'bots/:bot/collaborators', to: 'bots#add_collaborator'
 
   get 'authentication/login_redirect_target'
 end
