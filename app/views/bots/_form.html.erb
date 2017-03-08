@@ -19,7 +19,7 @@
       <%= f.label :collaborators %>
       <ul>
 		<% User.with_role(:collaborator, bot).each do |user| %>
-			<p><%= user.username %> </p>
+			<p><%= user.username %> <%= link_to 'Remove', "/bots/#{bot.id}/collaborators/#{user.id}", :method => :delete, :data => { :confirm => "Are you sure you want to do this?" } %></p>
 		<% end %>
 	  </ul>
   </div>
@@ -29,15 +29,15 @@
   </div>
 <% end %>
 
-<%= form_tag("/bots/4/collaborators") do %>
+<%= form_tag("/bots/#{bot.id}/collaborators") do %>
 <div class="field">
-    <%= label_tag(:collaborator, "Add Collaborator") %>
-    <%= text_field_tag(:collaborator) %>
+    <%= label_tag :collaborator, "Add Collaborator" %>
+    <%= text_field_tag :collaborator, nil, placeholder: "user ID" %>
 </div>
 
 
 <div class="actions">
-    <%= submit_tag("Add") %>
+    <%= submit_tag "Add" %>
 </div>
 
 <% end %>

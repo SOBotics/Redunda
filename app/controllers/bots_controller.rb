@@ -66,7 +66,8 @@ class BotsController < ApplicationController
   end
   
   
-  # POST bots/1/collaborators/1
+  # POST /bots/1/collaborators
+  # POST /bots/1/collaborators.json
   def add_collaborator
       unless Bot.exists?(id: params[:bot])
         respond_to do |format|
@@ -85,8 +86,6 @@ class BotsController < ApplicationController
         return
       end
       collaborator = User.find(params[:collaborator])
-        
-        
       
       if collaborator.has_role?(:collaborator, bot)
         respond_to do |format|
@@ -97,10 +96,50 @@ class BotsController < ApplicationController
       end
       
       
+      collaborator.add_role :collaborator, bot
+      
       respond_to do |format|
         format.html { redirect_to edit_bot_path(bot), notice: 'Collaborator was successfully added.' }
         format.json { head :no_content }
       end
+  end
+  
+  
+  
+  def remove_collaborator
+    unless Bot.exists?(id: params[:bot])
+      respond_to do |format|
+        format.html { redirect_to index_path, notice: 'That bot ID does not exist.' }
+        format.json { render json: 'That bot ID does not exist.', status: :unprocessable_entity }
+      end
+      return
+    end
+    bot = Bot.find(params[:bot])
+    
+    unless User.exists?(id: params[:collaborator])
+      respond_to do |format|
+        format.html { redirect_to edit_bot_path(bot), notice: 'That user ID does not exist.' }
+        format.json { render json: 'That user ID does not exist.', status: :unprocessable_entity }
+      end
+      return
+    end
+    collaborator = User.find(params[:collaborator])
+    
+    unless collaborator.has_role?(:collaborator, bot)
+      respond_to do |format|
+        format.html { redirect_to edit_bot_path(bot), notice: 'That user is not a collaborator.' }
+        format.json { render json: 'That user is not a collaborator.', status: :unprocessable_entity }
+      end
+      return
+    end
+    
+    
+    collaborator.remove_role :collaborator, bot
+    
+    respond_to do |format|
+      format.html { redirect_to edit_bot_path(bot), notice: 'Collaborator was successfully removed.' }
+      format.json { head :no_content }
+    end
   end
 
   private

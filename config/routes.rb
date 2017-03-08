@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :bot_instances
   end
   post 'bots/:bot/collaborators', to: 'bots#add_collaborator'
+  
+  delete 'bots/:bot/collaborators/:collaborator', to: 'bots#remove_collaborator'
 
   scope "authentication" do
     get 'login_redirect_target', to: 'authentication#login_redirect_target'
