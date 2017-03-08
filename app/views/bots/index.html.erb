@@ -15,6 +15,12 @@
             </li>
           <% end %>
         </ul>
+        <p><strong>Collaborators</strong></p>
+        <ul>
+            <% User.with_role(:collaborator, bot).each do |user| %>
+				<p><%= user.username %></p>
+			<% end %>
+		</ul>
         <% if current_user.present? and current_user.has_role? :owner, bot %>
           <%= link_to "edit", edit_bot_path(bot) %>
         <% end %>
