@@ -50,8 +50,11 @@
     </nav>
 
     <div class="col-md-10 col-md-offset-1">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <% flash.each do |type, message| %>
+        <div class="alert <%= bootstrap_class_for(type) %> fade in">
+          <%= message %>
+        </div>
+      <% end %>
 
       <%= yield %>
     </div>
