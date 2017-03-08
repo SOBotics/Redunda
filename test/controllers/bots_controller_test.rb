@@ -1,8 +1,15 @@
 require 'test_helper'
 
 class BotsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
     @bot = bots(:one)
+
+    user = User.first
+    user.add_role :owner, @bot
+
+    sign_in user
   end
 
   test "should get index" do
@@ -20,7 +27,7 @@ class BotsControllerTest < ActionDispatch::IntegrationTest
       post bots_url, params: { bot: { name: @bot.name } }
     end
 
-    assert_redirected_to bot_url(Bot.last)
+    assert_redirected_to bots_url
   end
 
   test "should show bot" do
@@ -35,7 +42,7 @@ class BotsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update bot" do
     patch bot_url(@bot), params: { bot: { name: @bot.name } }
-    assert_redirected_to bot_url(@bot)
+    assert_redirected_to bots_url
   end
 
   test "should destroy bot" do
