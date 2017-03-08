@@ -15,29 +15,32 @@
     <%= f.label :name %><br/>
     <%= f.text_field :name, :class => "form-control" %>
   </div><br/>
-  <div class="field">
+  <% unless bot.new_record? %>
+    <div class="field">
       <%= f.label :collaborators %>
       <ul>
-		<% User.with_role(:collaborator, bot).each do |user| %>
-			<p><%= user.username %> <%= link_to 'Remove', remove_collaborator_path(bot: bot.id, collaborator: user.id), :method => :delete, :data => { :confirm => "Are you sure you want to do this?" } %></p>
-		<% end %>
-	  </ul>
-  </div>
+        <% User.with_role(:collaborator, bot).each do |user| %>
+                <p><%= user.username %> <%= link_to 'Remove', remove_collaborator_path(bot: bot.id, collaborator: user.id), :method => :delete, :data => { :confirm => "Are you sure you want to do this?" } %></p>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="actions">
     <%= f.submit "Save", :class => "btn btn-primary" %>
   </div>
 <% end %>
 
-<%= form_tag add_collaborator_path(bot.id) do %>
-<div class="field">
-    <%= label_tag :collaborator, "Add Collaborator" %>
-    <%= text_field_tag :collaborator, nil, placeholder: "user ID" %>
-</div>
+<% unless bot.new_record? %>
+  <%= form_tag add_collaborator_path(bot) do %>
+    <div class="field">
+      <%= label_tag :collaborator, "Add Collaborator" %>
+      <%= text_field_tag :collaborator, nil, placeholder: "user ID" %>
+    </div>
 
+    <div class="actions">
+      <%= submit_tag "Add" %>
+    </div>
 
-<div class="actions">
-    <%= submit_tag "Add" %>
-</div>
-
+  <% end %>
 <% end %>
