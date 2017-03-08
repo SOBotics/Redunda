@@ -6,5 +6,12 @@ Rails.application.routes.draw do
     resources :bot_instances
   end
 
-  get 'authentication/login_redirect_target'
+  scope "authentication" do
+    get 'login_redirect_target', to: 'authentication#login_redirect_target'
+
+    if Rails.env.development?
+      get 'dev-login', to: 'authentication#dev_login'
+      post 'dev-login', to: 'authentication#submit_dev_login'
+    end
+  end
 end
