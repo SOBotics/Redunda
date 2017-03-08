@@ -32,6 +32,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class='<%= controller.class == BotsController ? "active" : "" %>'><%= link_to "bots", bots_path %></li>
+            <li class='<%= controller.class == UsersController ? "active" : "" %>'><%= link_to "users", users_path %></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <% if user_signed_in? %>

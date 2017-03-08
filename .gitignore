@@ -26,3 +26,6 @@ config/config.yml
 config/database.yml
 
 .idea/*
+
+# Ignore macOS metadata
+.DS_Store

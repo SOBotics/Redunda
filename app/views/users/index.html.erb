@@ -1,0 +1,25 @@
+<h3>Users</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% User.all.each do |user| %>
+    <tr>
+      <td><%= user.id %></td>
+      <td>
+        <% if user.stack_exchange_account_id != 0 then %>
+          <%= link_to user.username, "//stackexchange.com/users/#{user.stack_exchange_account_id}" %>
+        <% else %>
+          <%= user.username %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
