@@ -3,7 +3,7 @@
   <head>
     <title>Redunda</title>
     <%= csrf_meta_tags %>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -42,7 +42,7 @@
                 </ul>
               </li>
             <% else %>
-              <li><%= link_to "sign in", Rails.env.production? ? login_auth_url : dev_login_path %></li>
+              <li><%= link_to "sign in", Rails.env.development? ? dev_login_path :  login_auth_url %></li>
             <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->
