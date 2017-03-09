@@ -45,6 +45,13 @@
             <% else %>
               <li><%= link_to "sign in", Rails.env.development? ? dev_login_path :  login_auth_url %></li>
             <% end %>
+            <% if CurrentCommit.present? %>
+              <li>
+                <%= link_to "https://github.com/SOBotics/Redunda/commit/#{CurrentCommit.first(20)}" do %>
+                  <code><%= CurrentCommit.first(7) %></code>
+                <% end %>
+              </li>
+            <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
