@@ -75,7 +75,7 @@ class BotInstancesController < ApplicationController
   # Checks that a user has permissions (either owner of the bot or owner of the instance) on an instance.
   # Used before *modifying* an existing instance
   def check_instance_permissions
-    unless @bot_instance.id == current_user.id or current_user.has_role? :owner, @bot_instance.bot
+    unless @bot_instance.user_id == current_user.id or current_user.has_role? :owner, @bot_instance.bot
       render :status => :forbidden, :plain => "You're not allowed to modify this instance" and return
     end
 
