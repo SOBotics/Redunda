@@ -1,22 +1,19 @@
 class BotInstancesController < ApplicationController
   before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
   before_action :set_bot_instance, only: [:show, :edit, :update, :destroy]
+  before_action :set_bot
   before_action :check_instance_permissions, only: [:edit, :update, :destroy]
+  before_action :check_bot_permissions, only: [:new, :create]
 
   def index
-    @bot = Bot.find params[:bot_id]
     @bot_instances = @bot.bot_instances
   end
 
   def show
-    @bot = Bot.find @bot_instance.bot_id
   end
 
   def new
-    @bot = Bot.find params[:bot_id]
     @bot_instance = BotInstance.new
-
-    check_bot_permissions
   end
 
   def edit
@@ -26,9 +23,6 @@ class BotInstancesController < ApplicationController
     @bot_instance = BotInstance.new(bot_instance_params)
     @bot_instance.bot_id = params[:bot_id]
     @bot_instance.user = current_user
-    @bot = Bot.find params[:bot_id]
-
-    check_bot_permissions
 
     respond_to do |format|
       if @bot_instance.save
@@ -67,6 +61,10 @@ class BotInstancesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_bot_instance
     @bot_instance = BotInstance.find(params[:id])
+  end
+
+  def set_bot
+    @bot = Bot.find params[:bot_id]
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
