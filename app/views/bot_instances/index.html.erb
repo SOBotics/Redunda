@@ -19,6 +19,6 @@
   <% end %>
 </ul>
 
-<% if user_signed_in? && (current_user.has_any_role? ({name: :owner, resource: @bot, name: :collaborator, resource: @bot}))%>
+<% if user_signed_in? && (current_user.has_any_role?({:name => :owner, :resource => @bot}, {:name => :collaborator, :resource => @bot}))%>
   <%= link_to "Create New", new_bot_bot_instance_path %>
 <% end %>

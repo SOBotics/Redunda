@@ -1,46 +1,51 @@
-<%= form_for(bot) do |f| %>
-  <% if bot.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(bot.errors.count, "error") %> prohibited this bot from being saved:</h2>
+<p>
+  <%= form_for(bot) do |f| %>
+    <% if bot.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(bot.errors.count, "error") %> prohibited this bot from being saved:</h2>
 
-      <ul>
-      <% bot.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br/>
-    <%= f.text_field :name, :class => "form-control" %>
-  </div><br/>
-  <% unless bot.new_record? %>
-    <div class="field">
-      <%= f.label :collaborators %>
-      <ul>
-        <% User.with_role(:collaborator, bot).each do |user| %>
-                <p><%= user.username %> <%= link_to 'Remove', remove_collaborator_path(bot: bot.id, collaborator: user.id), :method => :delete, :data => { :confirm => "Are you sure you want to do this?" } %></p>
+        <ul>
+        <% bot.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
-      </ul>
-    </div>
-  <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-  <div class="actions">
-    <%= f.submit "Save", :class => "btn btn-primary" %>
-  </div>
-<% end %>
-
-<% unless bot.new_record? %>
-  <%= form_tag add_collaborator_path(bot) do %>
     <div class="field">
-      <%= label_tag :collaborator, "Add Collaborator" %>
-      <%= text_field_tag :collaborator, nil, placeholder: "user ID" %>
-    </div>
+      <%= f.label :name %><br/>
+      <%= f.text_field :name, :class => "form-control" %>
+    </div><br/>
 
     <div class="actions">
-      <%= submit_tag "Add" %>
+      <%= f.submit "Save", :class => "btn btn-primary" %>
     </div>
-
   <% end %>
+</p>
+
+<% unless bot.new_record? %>
+  <div class="field">
+    <%= form_tag add_collaborator_path(bot) do %>
+      <p>
+        <div class="field">
+          <%= label_tag :collaborators %>
+          <ul>
+            <% User.with_role(:collaborator, bot).each do |user| %>
+            <p><%= user.username %> <%= link_to 'Remove', remove_collaborator_path(bot: bot.id, collaborator: user.id), :method => :delete, :data => { :confirm => "Are you sure you want to do this?" } %></p>
+            <% end %>
+          </ul>
+        </div>
+        <div class="field">
+          <%= select_tag :collaborator, options_for_select(User.all.map{ |u| [u.username, u.id]}), { :multiple => false, :class => "form-control selectpicker", "data-live-search" => true, "data-actions-box" => true, "data-dropup-auto" => false, :title => "Add a collaborator" } %>
+        </div>
+      </p>
+
+      <p>
+        <div class="actions">
+          <%= submit_tag "Add" %>
+        </div>
+      </p>
+
+    <% end %>
+  </p>
 <% end %>
