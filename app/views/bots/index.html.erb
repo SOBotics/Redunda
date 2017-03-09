@@ -4,6 +4,7 @@
       <div class="bot-dash-module-container col-md-4">
         <div class="bot-dash-module col-md">
           <h3><%= bot.name %></h3>
+          <p>by <%= user_link(User.with_role(:owner, bot).first) %></p>
           <p><%= bot.description %></p>
           <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
           <ul>

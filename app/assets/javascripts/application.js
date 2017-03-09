@@ -13,3 +13,7 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).on('ready turbolinks:load', function() {
+    $('.selectpicker').selectpicker();
+});
