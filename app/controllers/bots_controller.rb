@@ -70,6 +70,14 @@ class BotsController < ApplicationController
   # POST /bots/1/collaborators.json
   def add_collaborator
     bot = Bot.find(params[:bot])
+
+    unless User.exists?(id: params[:collaborator])
+      respond_to do |format|
+        format.html { redirect_to edit_bot_path(bot), flash: { error: 'That user ID does not exist.' } }
+        format.json { render json: 'That user ID does not exist.', status: :not_found }
+      end
+      return
+    end
     collaborator = User.find(params[:collaborator])
 
     if collaborator.has_role?(:collaborator, bot)
