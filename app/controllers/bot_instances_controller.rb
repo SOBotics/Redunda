@@ -2,7 +2,6 @@ class BotInstancesController < ApplicationController
   before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
   before_action :set_bot_instance, only: [:show, :edit, :update, :destroy]
   before_action :check_instance_permissions, only: [:edit, :update, :destroy]
-  before_action :check_bot_permissions, only: [:new, :create]
 
   def index
     @bot = Bot.find params[:bot_id]
@@ -10,10 +9,14 @@ class BotInstancesController < ApplicationController
   end
 
   def show
+    @bot = Bot.find @bot_instance.bot_id
   end
 
   def new
+    @bot = Bot.find params[:bot_id]
     @bot_instance = BotInstance.new
+
+    check_bot_permissions
   end
 
   def edit
@@ -23,10 +26,13 @@ class BotInstancesController < ApplicationController
     @bot_instance = BotInstance.new(bot_instance_params)
     @bot_instance.bot_id = params[:bot_id]
     @bot_instance.user = current_user
+    @bot = Bot.find params[:bot_id]
+
+    check_bot_permissions
 
     respond_to do |format|
       if @bot_instance.save
-        format.html { redirect_to url_for(:controller => :bot_instances, :action => :show, :bot_id => params[:bot_id], :id => @bot_instance.id),
+        format.html { redirect_to url_for(:controller => :bot_instances, :action => :index, :bot_id => params[:bot_id]),
                                   notice: 'Bot instance was successfully created.' }
         format.json { render :show, status: :created, location: @bot_instance }
       else
@@ -74,12 +80,16 @@ class BotInstancesController < ApplicationController
     unless @bot_instance.id == current_user.id or current_user.has_role? :owner, @bot_instance.bot
       render :status => :forbidden, :plain => "You're not allowed to modify this instance" and return
     end
+
+    unless @bot_instance.bot_id.to_s == params[:bot_id]
+      render :status => :forbidden, :plain => "This instance does not belong to this bot." and return
+    end
   end
 
   # Checks that a user has permissions (either owner or collaborator) on a bot.
   # Used before *creating* a new instance
   def check_bot_permissions
-    unless current_user.has_role? :owner, @bot_instance.bot or current_user.has_role? :collaborator, @bot_instance.bot
+    unless current_user.has_role? :owner, @bot or current_user.has_role? :collaborator, @bot
       render :status => :forbidden, :plain => "You're not allowed to create an instance on this bot" and return
     end
   end

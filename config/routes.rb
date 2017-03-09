@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'bot_instances/show'
+
     get 'users', to: 'users#index'
 
   devise_for :users

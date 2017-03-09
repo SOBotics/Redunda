@@ -18,3 +18,7 @@
     </li><br/>
   <% end %>
 </ul>
+
+<% if user_signed_in? && (current_user.has_role?(:owner, @bot) || current_user.has_role?(:collaborator, @bot))%>
+  <%= link_to "Create New", new_bot_bot_instance_path %>
+<% end %>
