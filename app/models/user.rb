@@ -28,9 +28,4 @@ class User < ApplicationRecord
       return
     end
   end
-
-  # Helper method to return an HTML link for a user.
-  def link
-    return ActionController::Base.helpers.link_to username, "//stackexchange.com/users/#{stack_exchange_account_id}"
-  end
 end

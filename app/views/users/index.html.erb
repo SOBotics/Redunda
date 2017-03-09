@@ -14,7 +14,7 @@
       <td><%= user.id %></td>
       <td>
         <% if user.stack_exchange_account_id != 0 then %>
-          <%= user.link %>
+          <%= user_link user %>
         <% else %>
           <%= user.username %>
         <% end %>
