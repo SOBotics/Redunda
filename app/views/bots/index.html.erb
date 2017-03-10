@@ -1,32 +1,38 @@
 <% @bots.in_groups_of(3).each do |group| %>
   <div class="row">
     <% group.compact.each do |bot| %>
-      <div class="bot-dash-module-container col-md-4">
-        <div class="bot-dash-module col-md">
-          <h3><%= bot.name %><br/>
-            <small>by <%= user_link(User.with_role(:owner, bot).first) %></small>
-          </h3>
-          <p><%= bot.description %></p>
-          <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
-          <ul>
-            <% bot.bot_instances.each do |instance| %>
-              <li>
-                <code><%= instance.location %></code>
-                <em>(alive: <span class="<%= instance.status_class %>" title="<%= instance.last_ping %>">
-                              <%= instance.last_ping.nil? ? "never" : time_ago_in_words(instance.last_ping) + " ago" %></span>,
-                     owner: <%= instance.user.username %>)</em>
-              </li>
-            <% end %>
-          </ul>
-          <p><strong>Collaborators</strong></p>
-          <ul>
-              <% User.with_role(:collaborator, bot).each do |user| %>
-                  <p><%= user.username %></p>
+      <div class="col-md-4">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3><%= bot.name %><br/>
+              <small>by <%= user_link(User.with_role(:owner, bot).first) %></small>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <p><%= bot.description %></p>
+            <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
+            <ul>
+              <% bot.bot_instances.each do |instance| %>
+                <li>
+                  <code><%= instance.location %></code>
+                  <em>(alive: <span class="<%= instance.status_class %>" title="<%= instance.last_ping %>">
+                                <%= instance.last_ping.nil? ? "never" : time_ago_in_words(instance.last_ping) + " ago" %></span>,
+                       owner: <%= instance.user.username %>)</em>
+                </li>
               <% end %>
-          </ul>
-          <% if current_user.present? and current_user.has_role? :owner, bot %>
-            <%= link_to "edit", edit_bot_path(bot) %>
-          <% end %>
+            </ul>
+            <p><strong>Collaborators</strong></p>
+            <ul>
+                <% User.with_role(:collaborator, bot).each do |user| %>
+                    <li><%= user.username %></li>
+                <% end %>
+            </ul>
+          </div>
+          <div class="panel-footer">
+            <% if current_user.present? and current_user.has_role? :owner, bot %>
+              <%= link_to "edit", edit_bot_path(bot) %>
+            <% end %>
+          </div>
         </div>
       </div>
     <% end %>
