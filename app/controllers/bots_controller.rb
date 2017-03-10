@@ -23,6 +23,7 @@ class BotsController < ApplicationController
   def edit
     @eligible_collaborators = User.where.not(:id => User.with_role(:owner, @bot).pluck(:id))
                                   .where.not(:id => User.with_role(:collaborator, @bot).pluck(:id))
+                                  .order(:username)
                                   .map{ |u| [u.username, u.id] }
   end
 
