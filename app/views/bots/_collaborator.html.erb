@@ -1,6 +1,6 @@
 <tr id="collaborator-<%= user.id %>">
   <td><%= user.username %></td>
   <td style="text-align:right">
-    <%= link_to 'Remove', remove_collaborator_path(bot: bot.id, collaborator: user.id), :method => :delete, :remote => true, :data => { :confirm => "Are you sure you want to do this?" } %>
+    <%= link_to 'Remove', remove_collaborator_path(bot: bot.id, collaborator: user.id), :method => :delete, :remote => true %>
   </td>
 </tr>
