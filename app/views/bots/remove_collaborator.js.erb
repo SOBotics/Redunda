@@ -1,1 +1,4 @@
 $("tr#collaborator-<%= params[:collaborator] %>").remove()
+
+$("select.add-collaborator-picker").append($("<option></option>").attr("value", "<%= @collaborator.id %>").text("<%= @collaborator.username %>"))
+$(".add-collaborator-picker").selectpicker('refresh')

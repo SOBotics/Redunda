@@ -28,7 +28,17 @@
   <table class="table" id="collaborators-table">
     <thead>
       <tr>
-        <th colspan=2>Collaborators</th>
+        <th>Collaborators</th>
+        <th style="text-align:right">
+          <%= form_tag add_collaborator_path(bot), class: "form-inline", remote: true do %>
+            <div class="form-group">
+              <%= select_tag :collaborator, options_for_select(bot.eligible_collaborators), { :multiple => false, :class => "form-control selectpicker add-collaborator-picker", "data-live-search" => true, "data-actions-box" => true, "data-dropup-auto" => false, :title => "Add a collaborator" } %>
+            </div>
+            <div class="form-group actions">
+              <%= submit_tag "Add", :class => "btn btn-primary" %>
+            </div>
+          <% end %>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -37,16 +47,4 @@
       <% end %>
     </tbody>
   </table>
-  <%= form_tag add_collaborator_path(bot), remote: true do %>
-    <div class="field">
-      <%= select_tag :collaborator, options_for_select(bot.eligible_collaborators), { :multiple => false, :class => "form-control selectpicker", "data-live-search" => true, "data-actions-box" => true, "data-dropup-auto" => false, :title => "Add a collaborator" } %>
-    </div>
-    </p>
-
-    <p>
-      <div class="actions">
-        <%= submit_tag "Add", :class => "btn btn-primary" %>
-      </div>
-    </p>
-  <% end %>
 <% end %>

@@ -101,21 +101,21 @@ class BotsController < ApplicationController
 
 
   def remove_collaborator
-    bot = Bot.find(params[:bot])
-    collaborator = User.find(params[:collaborator])
+    @bot = Bot.find(params[:bot])
+    @collaborator = User.find(params[:collaborator])
 
-    unless collaborator.has_role?(:collaborator, bot)
+    unless @collaborator.has_role?(:collaborator, @bot)
       respond_to do |format|
-        format.html { redirect_to edit_bot_path(bot), flash: { error: 'That user is not a collaborator.' } }
+        format.html { redirect_to edit_bot_path(@bot), flash: { error: 'That user is not a collaborator.' } }
         format.json { render json: 'That user is not a collaborator.', status: :unprocessable_entity }
       end
       return
     end
 
-    collaborator.remove_role :collaborator, bot
+    @collaborator.remove_role :collaborator, @bot
 
     respond_to do |format|
-      format.html { redirect_to edit_bot_path(bot), flash: { success: 'Collaborator was successfully removed.' } }
+      format.html { redirect_to edit_bot_path(@bot), flash: { success: 'Collaborator was successfully removed.' } }
       format.js   { }
       format.json { head :no_content }
     end
