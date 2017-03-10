@@ -28,11 +28,11 @@
                 <% end %>
             </ul>
           </div>
-          <div class="panel-footer">
-            <% if current_user.present? and current_user.has_role? :owner, bot %>
+          <% if current_user.present? and current_user.has_role? :owner, bot %>
+            <div class="panel-footer">
               <%= link_to "edit", edit_bot_path(bot) %>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
         </div>
       </div>
     <% end %>
