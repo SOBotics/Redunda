@@ -21,10 +21,6 @@ class BotsController < ApplicationController
 
   # GET /bots/1/edit
   def edit
-    @eligible_collaborators = User.where.not(:id => User.with_role(:owner, @bot).pluck(:id))
-                                  .where.not(:id => User.with_role(:collaborator, @bot).pluck(:id))
-                                  .order(:username)
-                                  .map{ |u| [u.username, u.id] }
   end
 
   # POST /bots
@@ -73,30 +69,31 @@ class BotsController < ApplicationController
   # POST /bots/1/collaborators
   # POST /bots/1/collaborators.json
   def add_collaborator
-    bot = Bot.find(params[:bot])
+    @bot = Bot.find(params[:bot])
 
     unless User.exists?(id: params[:collaborator])
       respond_to do |format|
-        format.html { redirect_to edit_bot_path(bot), flash: { error: 'That user ID does not exist.' } }
+        format.html { redirect_to edit_bot_path(@bot), flash: { error: 'That user ID does not exist.' } }
         format.json { render json: 'That user ID does not exist.', status: :not_found }
       end
       return
     end
-    collaborator = User.find(params[:collaborator])
 
-    if collaborator.has_role?(:collaborator, bot)
+    @collaborator = User.find(params[:collaborator])
+
+    if @collaborator.has_role?(:collaborator, @bot)
       respond_to do |format|
-        format.html { redirect_to edit_bot_path(bot), flash: { error: 'That user is already a collaborator.' } }
+        format.html { redirect_to edit_bot_path(@bot), flash: { error: 'That user is already a collaborator.' } }
         format.json { render json: 'That user is already a collaborator.', status: :unprocessable_entity }
       end
       return
     end
 
-
-    collaborator.add_role :collaborator, bot
+    @collaborator.add_role :collaborator, @bot
 
     respond_to do |format|
-      format.html { redirect_to edit_bot_path(bot), flash: { success: 'Collaborator was successfully added.' } }
+      format.html { redirect_to edit_bot_path(@bot), flash: { success: 'Collaborator was successfully added.' } }
+      format.js   { }
       format.json { head :no_content }
     end
   end
@@ -115,11 +112,11 @@ class BotsController < ApplicationController
       return
     end
 
-
     collaborator.remove_role :collaborator, bot
 
     respond_to do |format|
       format.html { redirect_to edit_bot_path(bot), flash: { success: 'Collaborator was successfully removed.' } }
+      format.js   { }
       format.json { head :no_content }
     end
   end
