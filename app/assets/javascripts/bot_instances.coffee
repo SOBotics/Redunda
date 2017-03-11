@@ -3,6 +3,20 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on 'turbolinks:load', ->
+  clipboard = new Clipboard("#copy-key")
+  copyButton = $("#copy-key")
+
+  showTooltip = (message) ->
+    copyButton.attr "title", message
+    copyButton.tooltip('show')
+    setTimeout ->
+      $("#copy-key").tooltip 'hide'
+    , 1000
+
+  clipboard.on 'success', (e) -> showTooltip "Copied!"
+  clipboard.on 'error', (e) -> showTooltip "Press Ctrl+C to copy."
+
+
+
   $('.owner-instance-key').on 'click', (e) ->
-    e.preventDefault();
-    prompt("Your instance key:", $(this).data("key"));
+    $('#key-label').text e.target.getAttribute('data-key')

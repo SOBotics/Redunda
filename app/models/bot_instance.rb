@@ -1,6 +1,8 @@
 class BotInstance < ApplicationRecord
   resourcify
 
+  before_create :generate_key
+
   belongs_to :bot
   belongs_to :user
 
@@ -15,5 +17,10 @@ class BotInstance < ApplicationRecord
     else
       "bot-status-dead"
     end
+  end
+
+
+  def generate_key
+    self.key = SecureRandom.base64 32
   end
 end

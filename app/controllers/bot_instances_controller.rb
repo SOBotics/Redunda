@@ -39,7 +39,7 @@ class BotInstancesController < ApplicationController
   def update
     respond_to do |format|
       if @bot_instance.update(bot_instance_params)
-        format.html { redirect_to url_for(:controller => :bot_instances, :action => :show, :bot_id => params[:bot_id], :id => @bot_instance.id),
+        format.html { redirect_to url_for(:controller => :bot_instances, :action => :index, :bot_id => params[:bot_id]),
                                   notice: 'Bot instance was successfully updated.' }
         format.json { render :show, status: :ok, location: @bot_instance }
       else
