@@ -1,0 +1,14 @@
+<h3><%= @bot_instance.location %></h3>
+
+<p>
+<strong>Last pinged:</strong> <span class="<%= @bot_instance.status_class %>">
+    <% if @bot_instance.last_ping.present? %><%= time_ago_in_words(instance.last_ping) %> ago<% else %>Never<% end %></span><br/>
+<strong>Owner:</strong> <%= @bot_instance.user.username %>
+
+<% if user_signed_in? && @bot_instance.user == current_user %>
+<br/>
+<a href="#" class="owner-instance-key" data-key="<%= @bot_instance.key %>">Key</a> &middot;
+<%= link_to "Edit", url_for(controller: :bot_instances, action: :edit, bot_id: @bot.id, id: @bot_instance.id) %> &middot;
+<%= link_to "Delete", url_for(controller: :bot_instances, action: :destroy, bot_id: @bot.id, id: @bot_instance.id),
+    class: "text-danger", method: :delete, data: { confirm: "Are you sure you want to do this?" } %>
+<% end %></p>
