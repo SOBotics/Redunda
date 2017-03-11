@@ -13,6 +13,6 @@ class GenerateInstanceKeys < ActiveRecord::Migration[5.1]
       end
     end
 
-    add_index :bot_instances, :key, :unique => true
+    add_index :bot_instances, :key, :unique => true, :length => 40
   end
 end
