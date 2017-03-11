@@ -30,6 +30,9 @@
 .logo {
   margin-right: 15px;
 }
+.navbar-inverse .logo {
+  filter: invert(100%);
+}
 
 .bot-status-okay {
   color: green;
