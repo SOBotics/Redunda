@@ -2,7 +2,7 @@
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's 
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
  * vendor/assets/stylesheets directory can be referenced here using a relative path.
  *
  * You're free to add application-wide styles to this file and they'll appear at the bottom of the
@@ -27,8 +27,18 @@
     }
 }
 
-.logo {
-  margin-right: 15px;
+@media (min-width: 768px) {
+  .logo {
+    margin-right: 15px;
+  }
+}
+@media (max-width: 768px) {
+  .logo {
+    margin-left: 15px;
+  }
+}
+.navbar-inverse .logo {
+  filter: invert(100%);
 }
 
 .bot-status-okay {
