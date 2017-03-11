@@ -2,8 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-# http://stackoverflow.com/a/987376
-
 $(document).on 'turbolinks:load', ->
   clipboard = new Clipboard("#copy-key")
   copyButton = $("#copy-key")
