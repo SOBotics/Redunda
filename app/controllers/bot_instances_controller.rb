@@ -66,7 +66,7 @@ class BotInstancesController < ApplicationController
     @bot = @bot_instance.bot
 
     ActionCable.server.broadcast "status_updates", { :bot_id => @bot.id, :instance_id => @bot_instance.id,
-                                                     :ping => { :ago => time_ago_in_words(DateTime.current), :exact => DateTime.current },
+                                                     :ping => { :ago => ActionController::Base.helpers.time_ago_in_words(DateTime.current), :exact => DateTime.current },
                                                      :classes => { :status => @bot_instance.status_class, :panel => @bot_instance.panel_class }}
   end
 
