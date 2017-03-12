@@ -6,17 +6,28 @@ class BotInstance < ApplicationRecord
   belongs_to :bot
   belongs_to :user
 
-  def status_class
+  def status
     if last_ping.nil?
-      return "bot-status-nil"
+      return nil
     end
     if last_ping > 1.minute.ago
-      "bot-status-okay"
+      return :okay
     elsif last_ping < 1.minute.ago && last_ping > 3.minutes.ago
-      "bot-status-warn"
+      return :warn
     else
-      "bot-status-dead"
+      return :dead
     end
+  end
+
+  def status_class
+    if self.status == :okay
+      return "bot-status-okay"
+    elsif self.status == :warn
+      return "bot-status-warn"
+    elsif self.status == :dead
+      return "bot-status-dead"
+    end
+    return "bot-status-nil"
   end
 
 
