@@ -12,6 +12,6 @@ class Role < ApplicationRecord
   scopify
 
   def global_role_names
-    [:admin]
+    [:admin, :developer]
   end
 end
