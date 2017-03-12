@@ -1,9 +1,24 @@
-<p id="notice"><%= notice %></p>
+<h3><%= @bot.name %><br/>
+<small>by <%= @bot.owner.username %></small></h3>
 
-<p>
-  <strong>Name:</strong>
-  <%= @bot.name %>
-</p>
+<p class="text-muted"><%= @bot.description %></p>
 
-<%= link_to 'Edit', edit_bot_path(@bot) %> |
-<%= link_to 'Back', bots_path %>
+<strong>Collaborators</strong>
+<ul>
+  <%= @bot.collaborators.each do |user| %>
+    <li><%= user_link user %></li>
+  <% end %>
+</ul>
+
+<strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong>
+<ul>
+  <%= @bot.bot_instances.each do |instance| %>
+    <%= render 'bot_instances/list_item', :instance => instance %>
+  <% end %>
+</ul>
+
+<% if user_signed_in? && (current_user.has_role?(:admin) || current_user == @bot.owner) %>
+  <%= link_to "Edit", url_for(:controller => :bots, :action => :edit, :id => @bot.id) %> &middot;
+  <%= link_to "Delete", url_for(:controller => :bots, :action => :destroy, :id => @bot.id), :class => "text-danger",
+              :method => :delete, :data => { :confirm => "Are you sure you want to do this?" } %>
+<% end %>

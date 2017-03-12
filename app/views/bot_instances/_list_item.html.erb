@@ -1,0 +1,6 @@
+<li>
+  <code><%= instance.location %></code>
+  <em>(alive: <span class="<%= instance.status_class %>" title="<%= instance.last_ping %>">
+                                <%= instance.last_ping.nil? ? "never" : time_ago_in_words(instance.last_ping) + " ago" %></span>,
+    owner: <%= instance.user.username %>)</em>
+</li>

@@ -130,7 +130,7 @@ class BotsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def bot_params
-    params.require(:bot).permit(:name)
+    params.require(:bot).permit(:name, :description)
   end
 
   def check_bot_ownership
