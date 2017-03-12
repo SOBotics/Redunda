@@ -27,12 +27,12 @@
             </ul>
             <p><strong>Collaborators</strong></p>
             <ul>
-                <% User.with_role(:collaborator, bot).each do |user| %>
-                    <li><%= user.username %></li>
-                <% end %>
+              <% User.with_role(:collaborator, bot).each do |user| %>
+                  <li><%= user.username %></li>
+              <% end %>
             </ul>
           </div>
-          <% if current_user.present? and current_user.has_role? :owner, bot %>
+          <% if current_user.present? && (current_user.has_role?(:owner, bot) || current_user.has_role?(:admin)) %>
             <div class="panel-footer">
               <%= link_to "edit", edit_bot_path(bot) %>
             </div>

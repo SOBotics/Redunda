@@ -8,7 +8,7 @@
         <% if instance.last_ping.present? %><%= time_ago_in_words(instance.last_ping) %> ago<% else %>Never<% end %></span><br/>
       <strong>Owner:</strong> <%= instance.user.username %>
 
-      <% if user_signed_in? && instance.user == current_user %>
+      <% if user_signed_in? && (instance.user == current_user || current_user.has_role?(:admin)) %>
         <br/>
         <a href="#" class="owner-instance-key" data-key="<%= instance.key %>" data-toggle="modal" data-target="#keyModal">Key</a> &middot;
         <%= link_to "Edit", url_for(controller: :bot_instances, action: :edit, bot_id: @bot.id, id: instance.id) %> &middot;
@@ -19,7 +19,7 @@
   <% end %>
 </ul>
 
-<% if user_signed_in? && (current_user.has_any_role?({:name => :owner, :resource => @bot}, {:name => :collaborator, :resource => @bot}))%>
+<% if user_signed_in? && (current_user.has_any_role?({:name => :owner, :resource => @bot}, {:name => :collaborator, :resource => @bot}, {:name => :admin}))%>
   <%= link_to "Create New", new_bot_bot_instance_path %>
 <% end %>
 
