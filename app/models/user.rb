@@ -28,4 +28,16 @@ class User < ApplicationRecord
       return
     end
   end
+
+  Role.global_role_names.each do |role|
+    define_method "is_#{role}?" do
+      self.has_role?(role)
+    end
+  end
+
+  Role.scoped_roles.each do |role, resource|
+    define_method "is_#{role}?" do |res_arg|
+      res_arg.is_a? resource && self.has_role?(role, res_arg)
+    end
+  end
 end

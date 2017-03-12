@@ -17,7 +17,7 @@
   <% end %>
 </ul>
 
-<% if user_signed_in? && (current_user.has_role?(:admin) || current_user == @bot.owner) %>
+<% if user_signed_in? && (current_user.is_owner? @bot || current_user.is_admin?) %>
   <%= link_to "Edit", url_for(:controller => :bots, :action => :edit, :id => @bot.id) %> &middot;
   <%= link_to "Delete", url_for(:controller => :bots, :action => :destroy, :id => @bot.id), :class => "text-danger",
               :method => :delete, :data => { :confirm => "Are you sure you want to do this?" } %>

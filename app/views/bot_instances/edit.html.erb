@@ -4,7 +4,7 @@
 
 <br/>
 
-<% if current_user == @bot_instance.user || current_user.has_role?(:admin) %>
+<% if current_user == @bot_instance.user || current_user.is_admin? %>
   <p><%= link_to "Destroy", url_for(controller: :bot_instances, action: :destroy, bot_id: params[:bot_id], id: @bot_instance.id),
               method: :delete, class: "text-danger", data: { confirm: "Are you sure you want to do this?" } %></p>
 <% end %>
