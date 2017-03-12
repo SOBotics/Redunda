@@ -1,7 +1,9 @@
 class BotInstancesController < ApplicationController
+  protect_from_forgery except: :status_ping
+
   before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
   before_action :set_bot_instance, only: [:show, :edit, :update, :destroy]
-  before_action :set_bot
+  before_action :set_bot, except: :status_ping
   before_action :check_instance_permissions, only: [:edit, :update, :destroy]
   before_action :check_bot_permissions, only: [:new, :create]
 
@@ -56,6 +58,14 @@ class BotInstancesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def status_ping
+    @bot_instance = BotInstance.where(key: params[:key]).first!
+    @bot_instance.update(last_ping: DateTime.current)
+
+    @bot = @bot_instance.bot
+  end
+
 
   private
   # Use callbacks to share common setup or constraints between actions.

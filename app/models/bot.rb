@@ -11,4 +11,10 @@ class Bot < ApplicationRecord
         .order(:username)
         .map{ |u| [u.username, u.id] }
   end
+
+  def preferred_instance
+    BotInstance.where(bot: self)
+               .where('last_ping > ?', 3.minutes.ago)
+               .first
+  end
 end

@@ -7,7 +7,7 @@ $(document).on 'turbolinks:load', ->
   copyButton = $("#copy-key")
 
   showTooltip = (message) ->
-    copyButton.attr "title", message
+    copyButton.attr "data-title", message
     copyButton.tooltip('show')
     setTimeout ->
       $("#copy-key").tooltip 'hide'
