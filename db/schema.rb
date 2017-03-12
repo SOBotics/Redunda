@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20170311051142) do
     t.datetime "updated_at", null: false
     t.datetime "last_ping"
     t.index ["bot_id"], name: "index_bot_instances_on_bot_id"
-    t.index ["key"], name: "index_bot_instances_on_key", unique: true
+    t.index ["key"], name: "index_bot_instances_on_key", unique: true, length: { key: 40 }
     t.index ["user_id"], name: "index_bot_instances_on_user_id"
   end
 

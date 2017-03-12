@@ -22,4 +22,10 @@ Rails.application.routes.draw do
       post 'dev-login', to: 'authentication#submit_dev_login'
     end
   end
+
+  scope "admin" do
+    root to: 'admin#index'
+    get 'permissions', to: 'admin#user_permissions'
+    put 'permissions', to: 'admin#update_permissions'
+  end
 end

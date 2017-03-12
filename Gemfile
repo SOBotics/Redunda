@@ -8,6 +8,8 @@ end
 gem 'devise'
 gem 'rolify'
 gem 'awesome_print'
+gem 'will_paginate', github: "Undo1/will_paginate"
+gem 'will_paginate-bootstrap'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.0.beta1'

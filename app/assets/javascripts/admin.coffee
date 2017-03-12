@@ -10,9 +10,9 @@ $(document).on 'turbolinks:load', ->
     checkbox = $(this)
 
     $.ajax
-      type: 'put'
+      type: 'PUT'
       data: {'permitted': $(this).is(":checked"), 'user_id': $(this).data("user-id"), 'role': $(this).data("role")}
       dataType: 'json'
-      url: "/admin/permissions/update"
+      url: "/admin/permissions"
       success: (data) ->
         checkbox.disabled = false
