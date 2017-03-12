@@ -30,6 +30,17 @@ class BotInstance < ApplicationRecord
     return "bot-status-nil"
   end
 
+  def panel_class
+    if self.status == :okay
+      return "panel-success"
+    elsif self.status == :warn
+      return "panel-warning"
+    elsif self.status == :dead
+      return "panel-danger"
+    end
+    return "panel-default"
+  end
+
 
   def generate_key
     self.key = SecureRandom.base64 32
