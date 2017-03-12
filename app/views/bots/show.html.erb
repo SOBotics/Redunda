@@ -5,14 +5,14 @@
 
 <strong>Collaborators</strong>
 <ul>
-  <%= @bot.collaborators.each do |user| %>
+  <% @bot.collaborators.each do |user| %>
     <li><%= user_link user %></li>
   <% end %>
 </ul>
 
 <strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: @bot.id) %></strong>
 <ul>
-  <%= @bot.bot_instances.each do |instance| %>
+  <% @bot.bot_instances.each do |instance| %>
     <%= render 'bot_instances/list_item', :instance => instance %>
   <% end %>
 </ul>
