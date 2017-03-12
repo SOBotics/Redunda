@@ -134,7 +134,7 @@ class BotsController < ApplicationController
   end
 
   def check_bot_ownership
-    unless current_user.has_role? :owner, @bot || current_user.has_role?(:admin)
+    unless current_user.is_owner?(@bot) || current_user.is_admin?
       render :status => :forbidden, :plain => "You don't own this bot" and return
     end
   end
