@@ -2,7 +2,7 @@
   <div class="row">
     <% group.compact.each do |bot| %>
       <div class="col-md-4">
-        <div class="<%= "panel #{bot.bot_instances
+        <div id="bot-<%= bot.id %>" class="<%= "panel #{bot.bot_instances
         .order(:last_ping).reverse
         .select {|instance| !instance.last_ping.nil?}
         .first&.panel_class || "panel-default"}" %>"
