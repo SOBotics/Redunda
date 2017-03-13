@@ -61,7 +61,7 @@ class BotInstancesController < ApplicationController
 
   def status_ping
     @bot_instance = BotInstance.where(key: params[:key]).first!
-    @bot_instance.update(last_ping: DateTime.current)
+    @bot_instance.update(last_ping: DateTime.current, version: params[:version])
 
     @bot = @bot_instance.bot
 
