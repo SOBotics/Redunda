@@ -36,7 +36,13 @@
 
       <% if user_signed_in? && (instance.user == current_user || current_user.is_admin?) %>
         <br/>
-        <a href="#" class="owner-instance-key" data-key="<%= instance.key %>" data-toggle="modal" data-target="#keyModal">Key</a> &middot;
+
+        <a href="#"
+        class="owner-instance-key"
+        data-key="<%= instance.key %>" data-bot="<%= instance.bot_id %>" data-instance="<%= instance.id %>"
+        data-toggle="modal" data-target="#keyModal"
+        >Key</a> &middot;
+
         <%= link_to "Edit", url_for(controller: :bot_instances, action: :edit, bot_id: @bot.id, id: instance.id) %> &middot;
         <%= link_to "Delete", url_for(controller: :bot_instances, action: :destroy, bot_id: @bot.id, id: instance.id),
                     class: "text-danger", method: :delete, data: { confirm: "Are you sure you want to do this?" } %>
