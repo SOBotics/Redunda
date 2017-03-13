@@ -20,3 +20,5 @@ $(document).on 'turbolinks:load', ->
 
   $('.owner-instance-key').on 'click', (e) ->
     $('#key-label').text e.target.getAttribute('data-key')
+    $('#revoke-form').attr "action", "/bots/#{e.target.getAttribute 'data-bot'}/bot_instances/#{e.target.getAttribute 'data-instance'}/revoke_key"
+    $('#authenticity_token').attr "value", $('meta[name="csrf-token"]').attr("content")

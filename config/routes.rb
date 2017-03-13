@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "bots#index"
 
+
   resources :bots do
     resources :bot_instances
   end
@@ -14,7 +15,10 @@ Rails.application.routes.draw do
 
   post 'bots/:bot_id/bot_instances/reorder', to: 'bot_instances#reorder', as: :reorder
 
+  post 'bots/:bot_id/bot_instances/:id/revoke_key', to: 'bot_instances#revoke_key', as: :revoke_key
+
   post 'status.json', to: 'bot_instances#status_ping', as: :status_ping
+
 
   scope "authentication" do
     get 'login_redirect_target', to: 'authentication#login_redirect_target'
