@@ -10,7 +10,7 @@
           current_user.is_admin? ||
           current_user.is_developer?) %>
 
-          <% if BotInstance.where(bot_id: instance.bot_id).exists?("priority < ?", instance.priority) %>
+          <% if BotInstance.where(bot_id: instance.bot_id).where("priority < ?", instance.priority).exists? %>
             <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do%>
               <%= hidden_field_tag "id", instance.id %>
               <%= hidden_field_tag "direction", "up" %>
@@ -18,7 +18,7 @@
             <% end %>
           <% end %>
 
-          <% if BotInstance.where(bot_id: instance.bot_id).exists?("priority < ?", instance.priority) %>
+          <% if BotInstance.where(bot_id: instance.bot_id).where("priority > ?", instance.priority).exists? %>
             <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do%>
               <%= hidden_field_tag "id", instance.id %>
               <%= hidden_field_tag "direction", "down" %>
