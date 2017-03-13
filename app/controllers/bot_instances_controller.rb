@@ -104,6 +104,10 @@ class BotInstancesController < ApplicationController
     @bot_instance.update(last_ping: DateTime.current)
 
     @bot = @bot_instance.bot
+
+    ActionCable.server.broadcast "status_updates", { :bot_id => @bot.id, :instance_id => @bot_instance.id,
+                                                     :ping => { :ago => ActionController::Base.helpers.time_ago_in_words(DateTime.current), :exact => DateTime.current },
+                                                     :classes => { :status => @bot_instance.status_class, :panel => @bot_instance.panel_class }}
   end
 
 
@@ -125,7 +129,7 @@ class BotInstancesController < ApplicationController
   # Checks that a user has permissions (either owner of the bot or owner of the instance) on an instance.
   # Used before *modifying* an existing instance
   def check_instance_permissions
-    unless @bot_instance.user_id == current_user.id || current_user.has_role?(:owner, @bot_instance.bot) || current_user.has_role?(:admin)
+    unless @bot_instance.user == current_user || current_user.is_owner?(@bot_instance.bot) || current_user.is_admin?
       render :status => :forbidden, :plain => "You're not allowed to modify this instance" and return
     end
 
@@ -137,7 +141,7 @@ class BotInstancesController < ApplicationController
   # Checks that a user has permissions (either owner or collaborator) on a bot.
   # Used before *creating* a new instance
   def check_bot_permissions
-    unless current_user.has_role? :owner, @bot || current_user.has_role?(:collaborator, @bot) || current_user.has_role?(:admin)
+    unless current_user.has_role? :owner, @bot || current_user.is_collaborator?(@bot) || current_user.is_admin?
       render :status => :forbidden, :plain => "You're not allowed to create an instance on this bot" and return
     end
   end

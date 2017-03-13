@@ -14,4 +14,8 @@ class Role < ApplicationRecord
   def self.global_role_names
     [:admin, :developer]
   end
+
+  def self.scoped_roles
+    {:owner => Bot, :collaborator => Bot}
+  end
 end

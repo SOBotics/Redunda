@@ -34,7 +34,7 @@
       <strong>Owner:</strong> <%= instance.user.username %>
 
 
-      <% if user_signed_in? && (instance.user == current_user || current_user.has_role?(:admin)) %>
+      <% if user_signed_in? && (instance.user == current_user || current_user.is_admin?) %>
         <br/>
         <a href="#" class="owner-instance-key" data-key="<%= instance.key %>" data-toggle="modal" data-target="#keyModal">Key</a> &middot;
         <%= link_to "Edit", url_for(controller: :bot_instances, action: :edit, bot_id: @bot.id, id: instance.id) %> &middot;
@@ -45,6 +45,7 @@
   <% end %>
 </ul>
 
+<% # Next line doesn't use the generated role helpers like user.is_owner?(bot) because it's more efficient to do it all in one query. %>
 <% if user_signed_in? && (current_user.has_any_role?({:name => :owner, :resource => @bot}, {:name => :collaborator, :resource => @bot}, {:name => :admin}))%>
   <%= link_to "Create New", new_bot_bot_instance_path %>
 <% end %>

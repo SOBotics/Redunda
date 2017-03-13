@@ -2,7 +2,7 @@
   <div class="row">
     <% group.compact.each do |bot| %>
       <div class="col-md-4">
-        <div class="<%= "panel #{bot.bot_instances
+        <div id="bot-<%= bot.id %>" class="<%= "panel #{bot.bot_instances
         .order(:last_ping).reverse
         .select {|instance| !instance.last_ping.nil?}
         .first&.panel_class || "panel-default"}" %>"
@@ -27,7 +27,7 @@
               <% end %>
             </ul>
           </div>
-          <% if current_user.present? && (current_user.has_role?(:owner, bot) || current_user.has_role?(:admin)) %>
+          <% if user_signed_in? && (current_user.is_owner? bot || current_user.is_admin?) %>
             <div class="panel-footer">
               <%= link_to "edit", edit_bot_path(bot) %>
             </div>
