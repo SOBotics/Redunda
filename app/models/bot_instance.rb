@@ -2,7 +2,7 @@ class BotInstance < ApplicationRecord
   resourcify
 
   before_create :generate_key
-  before_create :populate_priority
+  after_create :populate_priority
 
   belongs_to :bot
   belongs_to :user
@@ -48,6 +48,6 @@ class BotInstance < ApplicationRecord
   end
 
   def populate_priority
-    self.priority = self.id
+    update(priority: self.id)
   end
 end
