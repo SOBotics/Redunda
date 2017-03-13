@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   post 'bots/:bot/collaborators', to: 'bots#add_collaborator', as: :add_collaborator
   delete 'bots/:bot/collaborators/:collaborator', to: 'bots#remove_collaborator', as: :remove_collaborator
 
+  post 'bots/:bot_id/bot_instances/reorder', to: 'bot_instances#reorder', as: :reorder
+
   post 'status.json', to: 'bot_instances#status_ping', as: :status_ping
 
   scope "authentication" do

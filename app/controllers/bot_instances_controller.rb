@@ -2,7 +2,7 @@ class BotInstancesController < ApplicationController
   protect_from_forgery except: :status_ping
 
   before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
-  before_action :set_bot_instance, only: [:show, :edit, :update, :destroy]
+  before_action :set_bot_instance, only: [:show, :edit, :update, :destroy, :reorder]
   before_action :set_bot, except: :status_ping
   before_action :check_instance_permissions, only: [:edit, :update, :destroy]
   before_action :check_bot_permissions, only: [:new, :create]
@@ -56,6 +56,46 @@ class BotInstancesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to bot_bot_instances_url(bot_id: params[:bot_id]), notice: 'Bot instance was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def reorder
+    @bot_instance = BotInstance.find(params[:id])
+
+    unless user_signed_in? && (
+      current_user.is_owner?(@bot_instance.bot) ||
+      current_user.is_collaborator?(@bot_instance.bot) ||
+      current_user.is_admin? ||
+      current_user.is_developer?)
+
+      respond_to do |format|
+        format.html { redirect_to bot_bot_instances_url(bot_id: params[:bot_id]), flash: { error: 'You do not have permission to move that instance.' } }
+      end
+      return
+    end
+
+    if params[:direction] == 'up'
+      other_instance = BotInstance.where(bot_id: @bot_instance.bot_id).where("priority < ?", @bot_instance.priority).order(:priority).last
+    elsif params[:direction] == 'down'
+      other_instance = BotInstance.where(bot_id: @bot_instance.bot_id).where("priority > ?", @bot_instance.priority).order(:priority).first
+    end
+
+    if other_instance.nil?
+      respond_to do |format|
+        format.html { redirect_to bot_bot_instances_url(bot_id: params[:bot_id]), flash: { error: 'That instance may not be moved in that direction.' } }
+      end
+      return
+    end
+
+    BotInstance.transaction do
+      other_instance.priority,@bot_instance.priority = @bot_instance.priority,other_instance.priority
+
+      @bot_instance.save!
+      other_instance.save!
+    end
+
+    respond_to do |format|
+      format.html { redirect_to bot_bot_instances_url(bot_id: params[:bot_id]) }
     end
   end
 

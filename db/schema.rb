@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170311051142) do
+ActiveRecord::Schema.define(version: 20170312221709) do
 
   create_table "bot_instances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bot_id"
@@ -20,8 +20,9 @@ ActiveRecord::Schema.define(version: 20170311051142) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "last_ping"
+    t.integer "priority"
     t.index ["bot_id"], name: "index_bot_instances_on_bot_id"
-    t.index ["key"], name: "index_bot_instances_on_key", unique: true, length: { key: 40 }
+    t.index ["key"], name: "index_bot_instances_on_key", unique: true
     t.index ["user_id"], name: "index_bot_instances_on_user_id"
   end
 
