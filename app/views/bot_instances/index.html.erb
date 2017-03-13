@@ -1,12 +1,38 @@
 <h3>Bot instances for <%= @bot.name %></h3>
 
 <ul>
-  <% @bot_instances.each do |instance| %>
+  <% @bot_instances.order(:priority).each do |instance| %>
     <li>
+      <div class="bot-instance-reorder-controls">
+        <% if user_signed_in? && (
+          current_user.is_owner?(instance.bot) ||
+          current_user.is_collaborator?(instance.bot) ||
+          current_user.is_admin? ||
+          current_user.is_developer?) %>
+
+          <% if BotInstance.where(bot_id: instance.bot_id).where("priority < ?", instance.priority).exists? %>
+            <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do%>
+              <%= hidden_field_tag "id", instance.id %>
+              <%= hidden_field_tag "direction", "up" %>
+              <%= image_submit_tag "arrow-up.png", width: 16, height: 16 %>
+            <% end %>
+          <% end %>
+
+          <% if BotInstance.where(bot_id: instance.bot_id).where("priority > ?", instance.priority).exists? %>
+            <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do%>
+              <%= hidden_field_tag "id", instance.id %>
+              <%= hidden_field_tag "direction", "down" %>
+              <%= image_submit_tag "arrow-down.png", width: 16, height: 16 %>
+            <% end %>
+          <% end %>
+
+        <% end %>
+      </div>
       <strong><code><%= instance.location %></code></strong><br/>
       <strong>Last pinged:</strong> <span class="<%= instance.status_class %>">
         <% if instance.last_ping.present? %><%= time_ago_in_words(instance.last_ping) %> ago<% else %>Never<% end %></span><br/>
       <strong>Owner:</strong> <%= instance.user.username %>
+
 
       <% if user_signed_in? && (instance.user == current_user || current_user.is_admin?) %>
         <br/>

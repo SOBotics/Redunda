@@ -23,6 +23,7 @@ class Bot < ApplicationRecord
   def preferred_instance
     BotInstance.where(bot: self)
                .where('last_ping > ?', 3.minutes.ago)
+               .order(:priority)
                .first
   end
 end
