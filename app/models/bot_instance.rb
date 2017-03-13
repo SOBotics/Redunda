@@ -44,7 +44,7 @@ class BotInstance < ApplicationRecord
 
 
   def generate_key
-    self.key = SecureRandom.base64 32
+    self.key = SecureRandom.hex 32
   end
 
   def populate_priority
