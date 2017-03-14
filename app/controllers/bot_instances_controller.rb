@@ -141,7 +141,7 @@ class BotInstancesController < ApplicationController
   # Checks that a user has permissions (either owner or collaborator) on a bot.
   # Used before *creating* a new instance
   def check_bot_permissions
-    unless current_user.has_role? :owner, @bot || current_user.is_collaborator?(@bot) || current_user.is_admin?
+    unless current_user.is_owner?(@bot) || current_user.is_collaborator?(@bot) || current_user.is_admin?
       render :status => :forbidden, :plain => "You're not allowed to create an instance on this bot" and return
     end
   end
