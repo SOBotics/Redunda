@@ -1,10 +1,10 @@
 class BotInstancesController < ApplicationController
   protect_from_forgery except: :status_ping
 
-  before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
-  before_action :set_bot_instance, only: [:show, :edit, :update, :destroy, :reorder]
+  before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :revoke_key]
+  before_action :set_bot_instance, only: [:show, :edit, :update, :destroy, :reorder, :revoke_key]
   before_action :set_bot, except: :status_ping
-  before_action :check_instance_permissions, only: [:edit, :update, :destroy]
+  before_action :check_instance_permissions, only: [:edit, :update, :destroy, :revoke_key]
   before_action :check_bot_permissions, only: [:new, :create]
 
   def index
@@ -108,6 +108,15 @@ class BotInstancesController < ApplicationController
     ActionCable.server.broadcast "status_updates", { :bot_id => @bot.id, :instance_id => @bot_instance.id,
                                                      :ping => { :ago => ActionController::Base.helpers.time_ago_in_words(DateTime.current), :exact => DateTime.current },
                                                      :classes => { :status => @bot_instance.status_class, :panel => @bot_instance.panel_class }}
+  end
+
+  def revoke_key
+    @bot_instance.update(key: SecureRandom.hex(32))
+
+    respond_to do |format|
+      format.html { redirect_to url_for(:controller => :bot_instances, :action => :index, :bot_id => params[:bot_id]),
+                                notice: 'Instance key was successfully revoked.' }
+    end
   end
 
 

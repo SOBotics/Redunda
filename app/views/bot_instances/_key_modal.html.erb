@@ -8,6 +8,12 @@
         <code id="key-label">you should never see this</code>
       </div>
       <div class="modal-footer">
+        <%= form_tag "/you_should_never_see_this", id: "revoke-form", authenticity_token: false do %>
+          <%= hidden_field_tag 'authenticity_token', '', id: 'authenticity_token' %>
+          <%= submit_tag "Revoke", class: "btn btn-danger pull-left",
+          data: {confirm: "Are you sure you want to do this?  Your old key will be revoked and a new key will be generated."}
+          %>
+        <% end %>
 
         <button type="button" class="btn btn-secondary"
         data-trigger="manual" data-container="body" data-placement="bottom" data-title="you should never see this"
