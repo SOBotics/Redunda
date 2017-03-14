@@ -4,4 +4,7 @@
                                 <%= instance.last_ping.nil? ? "never" : time_ago_in_words(instance.last_ping) + " ago" %></span>,
     owner: <%= instance.user.username %>,
     version: <%= instance.version %>)</em>
+    <% if instance != instance.bot.preferred_instance %>
+      <span class="label label-primary ">Standby</span>
+    <% end %>
 </li>
