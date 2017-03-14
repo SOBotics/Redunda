@@ -16,7 +16,7 @@
             <p><%= bot.description %></p>
             <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
             <ul class="bot-instance-ul">
-              <% bot.bot_instances.each do |instance| %>
+              <% bot.bot_instances.order(:priority).each do |instance| %>
                 <%= render 'bot_instances/list_item', :instance => instance %>
               <% end %>
             </ul>
@@ -27,7 +27,7 @@
               <% end %>
             </ul>
           </div>
-          <% if user_signed_in? && (current_user.is_owner? bot || current_user.is_admin?) %>
+          <% if current_user&.is_owner?(bot) || current_user&.is_admin? %>
             <div class="panel-footer">
               <%= link_to "edit", edit_bot_path(bot) %>
             </div>
