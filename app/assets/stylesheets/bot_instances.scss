@@ -35,3 +35,14 @@ a.view-instance:hover {
   margin-left: -20px;
   float:left;
 }
+
+.bot-instance-ul > .bot-instance-li {
+  list-style: none;
+  padding: 5px;
+  border-bottom: 1px solid lightgray;
+  margin-left: -40px;
+}
+
+.bot-instance-ul > .bot-instance-li:last-child {
+  border-bottom: none;
+}
