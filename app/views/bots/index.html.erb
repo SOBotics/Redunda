@@ -16,7 +16,7 @@
             <p><%= bot.description %></p>
             <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
             <ul>
-              <% bot.bot_instances.each do |instance| %>
+              <% bot.bot_instances.order(:priority).each do |instance| %>
                 <%= render 'bot_instances/list_item', :instance => instance %>
               <% end %>
             </ul>
