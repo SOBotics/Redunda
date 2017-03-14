@@ -27,7 +27,7 @@
               <% end %>
             </ul>
           </div>
-          <% if user_signed_in? && (current_user.is_owner? bot || current_user.is_admin?) %>
+          <% if current_user&.is_owner?(bot) || current_user&.is_admin? %>
             <div class="panel-footer">
               <%= link_to "edit", edit_bot_path(bot) %>
             </div>
