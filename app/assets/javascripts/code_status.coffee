@@ -30,7 +30,7 @@ $(document).on 'turbolinks:load', ->
       { default_branch } = repo
       $(".fill-branch")
         .text default_branch
-        .attr "href", "https://github.com/Charcoal-SE/metasmoke/tree/#{default_branch}"
+        .attr "href", "https://github.com/SOBotics/Redunda/tree/#{default_branch}"
 
       status = []
       if compare.ahead_by > 0
