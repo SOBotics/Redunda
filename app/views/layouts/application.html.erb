@@ -23,7 +23,7 @@
     </script>
   </head>
 
-  <body>
+  <body class="<%= controller.class.name.sub(/Controller$/, '').underscore.dasherize %>">
     <nav class="navbar navbar-default navbar-static-top <%= "navbar-inverse" unless Rails.env.production? %>">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -69,7 +69,7 @@
             <% end %>
             <% if CurrentCommit.present? %>
               <li>
-                <%= link_to "https://github.com/SOBotics/Redunda/commit/#{CurrentCommit.first(20)}" do %>
+                <%= link_to :code_status do %>
                   <code><%= CurrentCommit.first(7) %></code>
                 <% end %>
               </li>

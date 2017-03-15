@@ -11,6 +11,7 @@ gem 'awesome_print'
 gem 'will_paginate', github: "Undo1/will_paginate"
 gem 'will_paginate-bootstrap'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'octokit', '~> 4.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.0.beta1'
