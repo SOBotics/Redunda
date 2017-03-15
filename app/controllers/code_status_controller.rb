@@ -8,20 +8,10 @@ class CodeStatusController < ApplicationController
     ]
   end
   def api
-    @repo = Rails.cache.fetch "code_status/repo##{CurrentCommit}" do
-      Octokit.repository "SOBotics/Redunda"
-    end
-    @compare = Rails.cache.fetch "code_status/compare##{CurrentCommit}" do
-      Octokit.compare "SOBotics/Redunda", CurrentCommit, @repo[:default_branch]
-    end
-    @compare_diff = Rails.cache.fetch "code_status/compare_diff##{CurrentCommit}" do
-      Octokit.compare "SOBotics/Redunda", CurrentCommit, @repo[:default_branch], accept: "application/vnd.github.v3.diff"
-    end
-    @commit = Rails.cache.fetch "code_status/commit##{CurrentCommit}" do
-      Octokit.commit "SOBotics/Redunda", CurrentCommit
-    end
-    @commit_diff = Rails.cache.fetch "code_status/commit_diff##{CurrentCommit}" do
-      Octokit.commit "SOBotics/Redunda", CurrentCommit, accept: "application/vnd.github.v3.diff"
-    end
+    @repo = Octokit.repository "SOBotics/Redunda"
+    @compare = Octokit.compare "SOBotics/Redunda", CurrentCommit, @repo[:default_branch]
+    @compare_diff = Octokit.compare "SOBotics/Redunda", CurrentCommit, @repo[:default_branch], accept: "application/vnd.github.v3.diff"
+    @commit = Octokit.commit "SOBotics/Redunda", CurrentCommit
+    @commit_diff = Octokit.commit "SOBotics/Redunda", CurrentCommit, accept: "application/vnd.github.v3.diff"
   end
 end
