@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20170313173728) do
     t.integer "priority"
     t.string "version", default: "unspecified", null: false
     t.index ["bot_id"], name: "index_bot_instances_on_bot_id"
-    t.index ["key"], name: "index_bot_instances_on_key", unique: true
+    t.index ["key"], name: "index_bot_instances_on_key", unique: true, length: { key: 40 }
     t.index ["user_id"], name: "index_bot_instances_on_user_id"
   end
 

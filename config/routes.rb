@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   post 'bots/:bot_id/bot_instances/:id/revoke_key', to: 'bot_instances#revoke_key', as: :revoke_key
 
   post 'status.json', to: 'bot_instances#status_ping', as: :status_ping
+  get "status/code.json", to: "code_status#api"
+  get "status/code", as: :code_status, to: "code_status#index"
 
 
   scope "authentication" do
