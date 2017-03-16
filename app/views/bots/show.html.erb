@@ -3,6 +3,8 @@
 
 <p class="text-muted"><%= @bot.description %></p>
 
+<p class="text-muted">Repository: <%= repo_link(@bot) %></p>
+
 <strong>Collaborators</strong>
 <ul>
   <% @bot.collaborators.each do |user| %>

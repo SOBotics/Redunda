@@ -14,6 +14,7 @@
           </div>
           <div class="panel-body">
             <p><%= bot.description %></p>
+            <p class="text-muted">Repository: <%= repo_link(bot) %></p>
             <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
             <ul class="bot-instance-ul">
               <% bot.bot_instances.order(:priority).each do |instance| %>

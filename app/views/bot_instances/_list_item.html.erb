@@ -3,7 +3,7 @@
   <em>(alive: <span class="instance-status <%= instance.status_class %>" title="<%= instance.last_ping %>">
                                 <%= instance.last_ping.nil? ? "never" : time_ago_in_words(instance.last_ping) + " ago" %></span>,
     owner: <%= instance.user.username %>,
-    version: <%= instance.version %>)</em>
+    version: <%= version_link(instance.bot, instance) %>)</em>
   <% if instance != instance.bot.preferred_instance %>
     <% if instance.status == :okay %>
       <span class="label label-primary">Standby</span>
