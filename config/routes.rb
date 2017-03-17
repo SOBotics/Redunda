@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "bots#index"
 
+  get 'bots/data.json', to: 'bots#list_data', as: :list_data
+  get 'bots/data/:data_key', to: 'bots#get_data', as: :get_data, constraints: {:data_key => /[\w.]+/}
+  post 'bots/data/:data_key', to: 'bots#update_data', as: :update_data, constraints: {:data_key => /[\w.]+/}
+  delete 'bots/data/:data_key', to: 'bots#remove_data', as: :remove_data, constraints: {:data_key => /[\w.]+/}
+  delete 'bots/:id/data/:data_key', to: 'bots#web_remove_data', as: :web_remove_data, constraints: {:data_key => /[\w.]+/}
 
   resources :bots do
     resources :bot_instances

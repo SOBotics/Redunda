@@ -2,6 +2,7 @@ class Bot < ApplicationRecord
   resourcify
 
   has_many :bot_instances, :dependent => :destroy
+  has_many :bot_data, :dependent => :destroy, :class_name => "BotData"
 
   validates :name, length: { minimum: 3 }
 
