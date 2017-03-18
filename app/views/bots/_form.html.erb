@@ -57,4 +57,22 @@
       <% end %>
     </tbody>
   </table>
+
+  <table class="table" id="data-table">
+    <thead>
+      <tr>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% BotData.where(bot: bot).each do |data| %>
+        <tr>
+          <td><%= data.key %></td>
+          <td style="text-align:right">
+            <%= link_to 'Remove', web_remove_data_path(id: bot.id, data_key: data.key), :method => :delete, :remote => true %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

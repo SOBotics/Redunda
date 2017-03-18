@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316080615) do
+ActiveRecord::Schema.define(version: 20170316203346) do
+
+  create_table "bot_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "bot_id"
+    t.string "key"
+    t.binary "data", limit: 16777215
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_bot_data_on_bot_id"
+  end
 
   create_table "bot_instances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bot_id"
@@ -20,10 +29,10 @@ ActiveRecord::Schema.define(version: 20170316080615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "last_ping"
-    t.string "version", default: "unspecified", null: false
     t.integer "priority"
+    t.string "version", default: "unspecified", null: false
     t.index ["bot_id"], name: "index_bot_instances_on_bot_id"
-    t.index ["key"], name: "index_bot_instances_on_key", unique: true, length: { key: 40 }
+    t.index ["key"], name: "index_bot_instances_on_key", unique: true
     t.index ["user_id"], name: "index_bot_instances_on_user_id"
   end
 
@@ -62,6 +71,7 @@ ActiveRecord::Schema.define(version: 20170316080615) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "bot_data", "bots"
   add_foreign_key "bot_instances", "bots"
   add_foreign_key "bot_instances", "users"
 end

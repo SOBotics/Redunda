@@ -1,7 +1,11 @@
 class BotsController < ApplicationController
-  before_action :set_bot, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_bot, only: [:show, :edit, :update, :destroy, :web_remove_data]
+  before_action :set_bot_from_key, only: [:get_data, :update_data, :remove_data, :list_data]
+  before_action :set_data, only: [:get_data, :update_data, :remove_data, :web_remove_data]
+  before_action :authenticate_user!, except: [:index, :show, :get_data, :update_data, :remove_data, :list_data]
   before_action :check_bot_ownership, only: [:edit, :update, :destroy]
+
+  protect_from_forgery except: [:get_data, :update_data, :remove_data]
 
   # GET /bots
   # GET /bots.json
@@ -122,6 +126,45 @@ class BotsController < ApplicationController
   end
 
 
+
+  def get_data
+    render body: @bot_data.data, content_type: "application/octet-stream"
+  end
+
+  def update_data
+    if @bot_data.nil?  # insert a new BotData
+      @bot_data = BotData.new(bot: @bot, key: params[:data_key], data: request.raw_post)
+      @bot_data.save
+    else
+      @bot_data.update(data: request.raw_post)
+    end
+
+    head :no_content
+  end
+
+  def remove_data
+    @bot_data.destroy!
+    head :no_content
+  end
+
+  def web_remove_data
+    unless current_user.is_owner?(@bot) || current_user.is_collaborator?(@bot) ||current_user.is_admin?
+      respond_to do |format|
+        format.html { redirect_to bots_path(@bot), flash: { error: 'You do not have permission to remove bot data.' } }
+      end
+    end
+
+     BotData.where(bot: @bot, key: params[:data_key]).first!.destroy!
+
+     respond_to do |format|
+       format.html { redirect_to edit_bot_path(@bot), flash: { success: 'Data was successfully removed.' } }
+     end
+  end
+
+  def list_data
+    @bot_data = BotData.where(bot: @bot)
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_bot
@@ -137,5 +180,14 @@ class BotsController < ApplicationController
     unless current_user.is_owner?(@bot) || current_user.is_admin?
       render :status => :forbidden, :plain => "You don't own this bot" and return
     end
+  end
+
+
+  def set_bot_from_key
+    @bot = BotInstance.where(key: params[:key]).first!.bot
+  end
+
+  def set_data
+    @bot_data = BotData.where(bot: @bot, key: params[:data_key]).first
   end
 end
