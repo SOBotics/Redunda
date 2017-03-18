@@ -143,7 +143,7 @@ class BotsController < ApplicationController
   end
 
   def remove_data
-    @bot_data.destroy
+    @bot_data.destroy!
     head :no_content
   end
 
@@ -154,7 +154,7 @@ class BotsController < ApplicationController
       end
     end
 
-     BotData.where(bot: @bot, key: params[:data_key]).first!.destroy
+     BotData.where(bot: @bot, key: params[:data_key]).first!.destroy!
 
      respond_to do |format|
        format.html { redirect_to edit_bot_path(@bot), flash: { success: 'Data was successfully removed.' } }
