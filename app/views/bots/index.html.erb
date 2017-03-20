@@ -21,7 +21,7 @@
                 <%= render 'bot_instances/list_item', :instance => instance %>
               <% end %>
             </ul>
-            <% if User.with_role(:collaborator, bot).length %>
+            <% if User.with_role(:collaborator, bot).any? %>
               <p><strong>Collaborators</strong></p>
               <ul>
                 <% User.with_role(:collaborator, bot).each do |user| %>
