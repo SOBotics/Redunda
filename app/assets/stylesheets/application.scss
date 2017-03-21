@@ -1,54 +1,58 @@
-// Place all the styles related to the BotInstances controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
 
-a.view-instance {
-  display: block;
-  color: black;
-  text-decoration: none;
+.navbar-header {
+    display: flex;
+    align-items: center;
+    @media (max-width: 768px) {
+        .navbar-brand {
+            flex: 1;
+        }
+        .navbar-toggle {
+            order: 1; // flexbox version of float: right
+        }
+    }
 }
 
-a.view-instance:hover {
-  display: block;
-  color: black;
-  text-decoration: none;
-}
-
-.bot-instance-dash-module {
-  border: 1px solid gray;
-  border-radius: 3px;
-  padding: 5px !important;
-  background: white;
-  transition: all 0.2s ease;
-}
-
-.bot-instance-dash-module:hover {
-  border: 1px solid gray;
-  border-radius: 3px;
-  padding: 5px !important;
-  background: #ededed;
-  transition: all 0.2s ease;
-}
-
-.bot-instance-reorder-controls {
-  position: absolute;
-  margin-left: -20px;
-  float:left;
-}
-.bot-instance-ul {
-  padding: 0;
-  margin: {
-    left: -16px;
-    right: -16px;
+@media (min-width: 768px) {
+  .logo {
+    margin-right: 15px;
   }
-  &.no-collaborators {
-    margin-bottom: -5px;
+}
+@media (max-width: 768px) {
+  .logo {
+    margin-left: 15px;
   }
-  &:not(.no-collaborators) .bot-instance-li:not(:last-child) {
-    border-bottom: 1px solid lightgray;
-  }
-  .bot-instance-li {
-    list-style: none;
-    padding: 5px 16px;
-  }
+}
+.navbar-inverse .logo {
+  filter: invert(100%);
+}
+
+.bot-status-okay {
+  color: green;
+}
+
+.bot-status-warn {
+  color: orange;
+}
+
+.bot-status-dead {
+  color: red;
+}
+
+.bot-status-nil {
+  color: blue;
 }
