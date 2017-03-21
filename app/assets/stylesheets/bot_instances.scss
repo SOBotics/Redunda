@@ -41,9 +41,14 @@ a.view-instance:hover {
     left: -16px;
     right: -16px;
   }
+  &.no-collaborators {
+    margin-bottom: -5px;
+  }
   .bot-instance-li {
     list-style: none;
     padding: 5px 16px;
-    border-bottom: 1px solid lightgray;
+    :not(.no-collaborators)&:not(:last-child) {
+      border-bottom: 1px solid lightgray;
+    }
   }
 }

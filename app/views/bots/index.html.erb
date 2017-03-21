@@ -16,15 +16,15 @@
             <% if bot.description.present? %><p><%= bot.description %></p><% end %>
             <% if bot.repository.present? %><p class="text-muted">Repository: <%= repo_link(bot) %></p><% end %>
             <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
-            <ul class="bot-instance-ul">
+            <ul class="bot-instance-ul<%= " no-collaborators" unless bot.collaborators.any? %>">
               <% bot.bot_instances.order(:priority).each do |instance| %>
                 <%= render 'bot_instances/list_item', :instance => instance %>
               <% end %>
             </ul>
-            <% if User.with_role(:collaborator, bot).any? %>
+            <% if bot.collaborators.any? %>
               <p><strong>Collaborators</strong></p>
               <ul>
-                <% User.with_role(:collaborator, bot).each do |user| %>
+                <% bot.collaborators.each do |user| %>
                     <li><%= user.username %></li>
                 <% end %>
               </ul>
