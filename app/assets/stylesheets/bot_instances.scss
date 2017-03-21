@@ -44,11 +44,11 @@ a.view-instance:hover {
   &.no-collaborators {
     margin-bottom: -5px;
   }
+  &:not(.no-collaborators) .bot-instance-li:not(:last-child) {
+    border-bottom: 1px solid lightgray;
+  }
   .bot-instance-li {
     list-style: none;
     padding: 5px 16px;
-    :not(.no-collaborators)&:not(:last-child) {
-      border-bottom: 1px solid lightgray;
-    }
   }
 }
