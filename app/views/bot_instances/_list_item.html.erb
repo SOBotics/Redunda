@@ -2,7 +2,7 @@
   <code><%= instance.location %></code>
   <em>(alive: <span class="instance-status <%= instance.status_class %>" title="<%= instance.last_ping %>">
                                 <%= instance.last_ping.nil? ? "never" : time_ago_in_words(instance.last_ping) + " ago" %>
-    </span><% if instance.version.present? %>, 
+    </span><% if instance.version.present? && !instance.version.empty? && instance.version != "unspecified" %>, 
     version: <%= version_link(instance.bot, instance) %><% end %>)</em>
   <% if instance != instance.bot.preferred_instance %>
     <% if instance.status == :okay %>
