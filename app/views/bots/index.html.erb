@@ -17,7 +17,7 @@
             <% if bot.repository.present? %><p class="text-muted">Repository: <%= repo_link(bot) %></p><% end %>
             <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
             <ul class="bot-instance-ul<%= " no-collaborators" unless bot.collaborators.any? %>">
-              <% bot.bot_instances.order(:priority).each do |instance| %>
+              <% bot.bot_instances.order(:priority).where("last_ping > ?", 1.hour.ago).each do |instance| %>
                 <%= render 'bot_instances/list_item', :instance => instance %>
               <% end %>
             </ul>
