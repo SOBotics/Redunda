@@ -17,9 +17,9 @@
             <% if bot.repository.present? %><p class="text-muted">Repository: <%= repo_link(bot) %></p><% end %>
             <p><strong><%= link_to "Instances", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></strong></p>
             <ul class="bot-instance-ul<%= " no-collaborators" unless bot.collaborators.any? %>">
-              <% if bot.bot_instances.order(:priority).where("last_ping > ?", 1.hour.ago).each do |instance| %>
+              <% bot.bot_instances.order(:priority).where("last_ping > ?", 1.hour.ago).each do |instance| %>
                 <%= render 'bot_instances/list_item', :instance => instance %>
-              <% end.length == 0 %>
+              <% unless bot.bot_instances.where("last_ping > ?", 1.hour.ago).any? %>
                 <li><em class="bot-status-dead">No active instances. <%= link_to "see all", url_for(controller: :bot_instances, action: :index, bot_id: bot.id) %></em></li>
               <% end %>
             </ul>
