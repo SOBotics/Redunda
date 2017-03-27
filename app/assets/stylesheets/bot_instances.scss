@@ -35,7 +35,7 @@ a.view-instance:hover {
   margin-left: -20px;
   float:left;
 }
-.bot-instance-ul {
+.bot-instances {
   padding: 0;
   margin: {
     left: -16px;
@@ -44,10 +44,10 @@ a.view-instance:hover {
   &.no-collaborators {
     margin-bottom: -5px;
   }
-  &:not(.no-collaborators) .bot-instance-li:not(:last-child) {
+  &:not(.no-collaborators) li:not(:last-child) {
     border-bottom: 1px solid lightgray;
   }
-  .bot-instance-li {
+  li {
     list-style: none;
     padding: 5px 16px;
   }

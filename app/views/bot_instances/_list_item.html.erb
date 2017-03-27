@@ -1,4 +1,4 @@
-<li id="instance-<%= instance.id %>" class="bot-instance-li">
+<li id="instance-<%= instance.id %>">
   <code><%= instance.location %></code>
   <em>(alive: <span class="instance-status <%= instance.status_class %>" title="<%= instance.last_ping %>">
                                 <%= instance.last_ping.nil? ? "never" : time_ago_in_words(instance.last_ping) + " ago" %>
