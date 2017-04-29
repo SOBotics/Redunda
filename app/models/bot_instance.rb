@@ -7,6 +7,10 @@ class BotInstance < ApplicationRecord
   belongs_to :bot
   belongs_to :user
 
+  def human_location
+    return "#{self.user.username}/#{self.location}"
+  end
+
   def status
     if last_ping.nil?
       return nil
