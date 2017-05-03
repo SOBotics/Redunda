@@ -1,32 +1,34 @@
 <h3>Bot instances for <%= @bot.name %></h3>
 
-<ul>
+<ul class="bot-instance-list">
   <% @bot_instances.order(:priority).each do |instance| %>
-    <li>
-      <div class="bot-instance-reorder-controls">
-        <% if user_signed_in? && (
-          current_user.is_owner?(instance.bot) ||
-          current_user.is_collaborator?(instance.bot) ||
-          current_user.is_admin?) %>
+    <div class="bot-instance-reorder-controls">
+      <% if user_signed_in? && (
+        current_user.is_owner?(instance.bot) ||
+        current_user.is_collaborator?(instance.bot) ||
+        current_user.is_admin?) %>
 
-          <% if BotInstance.where(bot_id: instance.bot_id).where("priority < ?", instance.priority).exists? %>
-            <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do%>
-              <%= hidden_field_tag "id", instance.id %>
-              <%= hidden_field_tag "direction", "up" %>
-              <%= submit_tag "▲", class: "submit-arrow" %>
-            <% end %>
+        <br/>
+
+        <% if BotInstance.where(bot_id: instance.bot_id).where("priority < ?", instance.priority).exists? %>
+          <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do%>
+            <%= hidden_field_tag "id", instance.id %>
+            <%= hidden_field_tag "direction", "up" %>
+            <%= submit_tag "▲", class: "submit-arrow" %>
           <% end %>
-
-          <% if BotInstance.where(bot_id: instance.bot_id).where("priority > ?", instance.priority).exists? %>
-            <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do %>
-              <%= hidden_field_tag "id", instance.id %>
-              <%= hidden_field_tag "direction", "down" %>
-              <%= submit_tag "▼", class: "submit-arrow" %>
-            <% end %>
-          <% end %>
-
         <% end %>
-      </div>
+
+        <% if BotInstance.where(bot_id: instance.bot_id).where("priority > ?", instance.priority).exists? %>
+          <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do %>
+            <%= hidden_field_tag "id", instance.id %>
+            <%= hidden_field_tag "direction", "down" %>
+            <%= submit_tag "▼", class: "submit-arrow" %>
+          <% end %>
+        <% end %>
+
+      <% end %>
+    </div>
+    <li>
       <strong><code><%= instance.location %></code></strong>
       <% if instance != instance.bot.preferred_instance %>
         <span class="label label-primary ">Standby</span>
