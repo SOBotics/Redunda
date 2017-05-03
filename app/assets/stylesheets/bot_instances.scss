@@ -2,6 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$ARROW_SIZE: 20px;
+
 a.view-instance {
   display: block;
   color: black;
@@ -30,12 +32,8 @@ a.view-instance:hover {
   transition: all 0.2s ease;
 }
 
-.bot-instance-reorder-controls {
-  position: absolute;
-  margin-left: -20px;
-  float:left;
-}
-.bot-instance-list {
+
+.bot-instance-dash-list {
   padding: 0;
   margin: {
     left: -16px;
@@ -51,4 +49,29 @@ a.view-instance:hover {
     list-style: none;
     padding: 5px 16px;
   }
+}
+
+.bot-instance-list {
+  padding: inherit;
+}
+
+
+
+.bot-instance-reorder-controls {
+  position: absolute;
+  float: left;
+  margin-left: -22.5px;
+}
+
+.submit-arrow {
+  border: 0 none;
+  background: rgba(0, 0, 0, 0);
+  padding: 0px;
+  width: $ARROW_SIZE;
+  height: $ARROW_SIZE;
+
+  text-align: center;
+  vertical-align: middle;
+  line-height: $ARROW_SIZE;
+  font-size: $ARROW_SIZE;
 }
