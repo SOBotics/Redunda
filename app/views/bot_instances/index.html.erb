@@ -18,7 +18,7 @@
           <% end %>
 
           <% if BotInstance.where(bot_id: instance.bot_id).where("priority > ?", instance.priority).exists? %>
-            <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder", style: "text-align: center;") do %>
+            <%= form_tag("/bots/#{instance.bot_id}/bot_instances/reorder") do %>
               <%= hidden_field_tag "id", instance.id %>
               <%= hidden_field_tag "direction", "down" %>
               <%= submit_tag "▼", class: "submit-arrow" %>

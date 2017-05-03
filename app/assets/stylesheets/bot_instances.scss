@@ -55,9 +55,13 @@ a.view-instance:hover {
 
 .submit-arrow {
   border: 0 none;
-  background: rgba(0, 0, 0, 1);
-  text-align: center !important;
-  margin: auto !important;
+  background: rgba(0, 0, 0, 0);
+  padding: 0px;
   width: 16px;
   height: 16px;
+
+  text-align: center;
+  vertical-align: middle;
+  line-height: 16px;
+  font-size: 1vw;
 }
