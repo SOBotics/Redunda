@@ -7,11 +7,6 @@ class BotsController < ApplicationController
 
   protect_from_forgery except: [:get_data, :update_data, :remove_data, :add_event]
 
-  # Don't attempt to render a response for add_event
-  # https://stackoverflow.com/a/2062577/3476191
-  layout false
-  layout 'application', :except => :add_event
-
   # GET /bots
   # GET /bots.json
   def index
@@ -190,7 +185,6 @@ class BotsController < ApplicationController
       event = Event.new(bot: @bot, headers: json_headers, content: request.raw_post, name: params[:name])
       event.save!
     end
-    head :no_content
   end
 
 
