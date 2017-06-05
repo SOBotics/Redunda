@@ -144,7 +144,7 @@ class BotInstancesController < ApplicationController
 
   # Runs after events.json is rendered, to remove the events from the database.
   def destroy_events
-    @events.each { |e| e.destroy! }
+    @events.destroy_all
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
