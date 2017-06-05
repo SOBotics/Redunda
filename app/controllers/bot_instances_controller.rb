@@ -3,9 +3,12 @@ class BotInstancesController < ApplicationController
 
   before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :revoke_key]
   before_action :set_bot_instance, only: [:show, :edit, :update, :destroy, :reorder, :revoke_key]
-  before_action :set_bot, except: :status_ping
+  before_action :set_bot_instance_from_key, only: [:status_ping, :show_events]
+  before_action :set_bot, except: [:status_ping, :show_events]
   before_action :check_instance_permissions, only: [:edit, :update, :destroy, :revoke_key]
   before_action :check_bot_permissions, only: [:new, :create]
+
+  after_action :destroy_events, only: [:show_events]
 
   def index
     @bot_instances = @bot.bot_instances
@@ -100,7 +103,6 @@ class BotInstancesController < ApplicationController
   end
 
   def status_ping
-    @bot_instance = BotInstance.where(key: params[:key]).first!
     @bot_instance.update(last_ping: DateTime.current, version: params[:version].nil? ? "unspecified" : params[:version])
 
     @bot = @bot_instance.bot
@@ -109,6 +111,12 @@ class BotInstancesController < ApplicationController
                                                      :ping => { :ago => ActionController::Base.helpers.time_ago_in_words(DateTime.current), :exact => DateTime.current },
                                                      :classes => { :status => @bot_instance.status_class, :panel => @bot_instance.panel_class }}
   end
+
+  # POST events.json
+  def show_events
+    @events = Event.where("bot_id = ? or bot_instance_id = ?", Bot.find(@bot_instance.bot_id), @bot_instance.id)
+  end
+
 
   def revoke_key
     @bot_instance.update(key: SecureRandom.hex(32))
@@ -126,8 +134,17 @@ class BotInstancesController < ApplicationController
     @bot_instance = BotInstance.find(params[:id])
   end
 
+  def set_bot_instance_from_key
+      @bot_instance = BotInstance.where(key: params[:key]).first!
+  end
+
   def set_bot
     @bot = Bot.find params[:bot_id]
+  end
+
+  # Runs after events.json is rendered, to remove the events from the database.
+  def destroy_events
+    @events.each { |e| e.destroy! }
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

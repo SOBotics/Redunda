@@ -1,11 +1,16 @@
 class BotsController < ApplicationController
-  before_action :set_bot, only: [:show, :edit, :update, :destroy, :web_remove_data]
+  before_action :set_bot, only: [:show, :edit, :update, :destroy, :web_remove_data, :add_event]
   before_action :set_bot_from_key, only: [:get_data, :update_data, :remove_data, :list_data]
   before_action :set_data, only: [:get_data, :update_data, :remove_data, :web_remove_data]
-  before_action :authenticate_user!, except: [:index, :show, :get_data, :update_data, :remove_data, :list_data]
+  before_action :authenticate_user!, except: [:index, :show, :get_data, :update_data, :remove_data, :list_data, :add_event]
   before_action :check_bot_ownership, only: [:edit, :update, :destroy]
 
-  protect_from_forgery except: [:get_data, :update_data, :remove_data]
+  protect_from_forgery except: [:get_data, :update_data, :remove_data, :add_event]
+
+  # Don't attempt to render a response for add_event
+  # https://stackoverflow.com/a/2062577/3476191
+  layout false
+  layout 'application', :except => :add_event
 
   # GET /bots
   # GET /bots.json
@@ -38,7 +43,7 @@ class BotsController < ApplicationController
 
         format.html { redirect_to bots_path, flash: { success: 'Bot was successfully created.' } }
         format.json { render :show, status: :created, location: @bot }
-        else
+      else
         format.html { render :new }
         format.json { render json: @bot.errors, status: :unprocessable_entity }
       end
@@ -52,7 +57,7 @@ class BotsController < ApplicationController
       if @bot.update(bot_params)
         format.html { redirect_to bots_path, flash: { success: 'Bot was successfully updated.' } }
         format.json { render :show, status: :ok, location: @bot }
-        else
+      else
         format.html { render :edit }
         format.json { render json: @bot.errors, status: :unprocessable_entity }
       end
@@ -154,16 +159,40 @@ class BotsController < ApplicationController
       end
     end
 
-     BotData.where(bot: @bot, key: params[:data_key]).first!.destroy!
+    BotData.where(bot: @bot, key: params[:data_key]).first!.destroy!
 
-     respond_to do |format|
-       format.html { redirect_to edit_bot_path(@bot), flash: { success: 'Data was successfully removed.' } }
-     end
+    respond_to do |format|
+      format.html { redirect_to edit_bot_path(@bot), flash: { success: 'Data was successfully removed.' } }
+    end
   end
 
   def list_data
     @bot_data = BotData.where(bot: @bot)
   end
+
+
+  # POST bots/1/events/name
+  def add_event
+    json_headers = request.headers.map { |k, v|
+      if v.is_a?(String) && k.start_with?('HTTP')
+        next [k.gsub('HTTP_', '').titleize.gsub(' ', '-'), v]
+      else
+        next nil
+      end
+    }.compact.to_h.to_json
+
+    if params[:broadcast]
+      BotInstance.where(bot: @bot).each do |instance|
+        event = Event.new(bot_instance: instance, headers: json_headers, content: request.raw_post, name: params[:name])
+        event.save!
+      end
+    else
+      event = Event.new(bot: @bot, headers: json_headers, content: request.raw_post, name: params[:name])
+      event.save!
+    end
+    head :no_content
+  end
+
 
   private
   # Use callbacks to share common setup or constraints between actions.

@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   delete 'bots/data/:data_key', to: 'bots#remove_data', as: :remove_data, constraints: {:data_key => /[\w\.]+/}
   delete 'bots/:id/data/:data_key', to: 'bots#web_remove_data', as: :web_remove_data, constraints: {:data_key => /[\w\.]+/}
 
+  post 'bots/:id/events/:name', to: 'bots#add_event', as: :add_event
+  post 'events.json', to: 'bot_instances#show_events', as: :show_events
+
   resources :bots do
     resources :bot_instances
   end
