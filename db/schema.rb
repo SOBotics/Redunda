@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170429203443) do
+ActiveRecord::Schema.define(version: 20170604231312) do
 
   create_table "bot_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bot_id"
@@ -44,6 +44,18 @@ ActiveRecord::Schema.define(version: 20170429203443) do
     t.string "repository"
   end
 
+  create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "bot_id"
+    t.bigint "bot_instance_id"
+    t.string "headers"
+    t.string "content"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_events_on_bot_id"
+    t.index ["bot_instance_id"], name: "index_events_on_bot_instance_id"
+  end
+
   create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "resource_type"
@@ -74,4 +86,6 @@ ActiveRecord::Schema.define(version: 20170429203443) do
   add_foreign_key "bot_data", "bots"
   add_foreign_key "bot_instances", "bots"
   add_foreign_key "bot_instances", "users"
+  add_foreign_key "events", "bot_instances"
+  add_foreign_key "events", "bots"
 end
