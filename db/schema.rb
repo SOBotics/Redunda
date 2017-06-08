@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170604231312) do
+ActiveRecord::Schema.define(version: 20170608220107) do
 
   create_table "bot_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bot_id"
@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 20170604231312) do
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bot_id"
     t.bigint "bot_instance_id"
-    t.string "headers"
-    t.string "content"
+    t.text "headers"
+    t.text "content"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
