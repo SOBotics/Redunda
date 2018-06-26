@@ -16,6 +16,10 @@ class AuthenticationController < ApplicationController
     user = User.find_by_stack_exchange_account_id(access_token_info["account_id"])
 
     if user.present?
+      Thread.new do
+        user.update(username: user.get_username(nil, user.stack_exchange_account_id))
+      end
+
       flash[:success] = "Successfully logged in as #{user.username}"
       sign_in_and_redirect user
     else
@@ -39,6 +43,10 @@ class AuthenticationController < ApplicationController
     user = User.find_by_stack_exchange_account_id(params[:account_id])
 
     if user.present?
+      Thread.new do
+        user.update(username: user.get_username(nil, user.stack_exchange_account_id))
+      end
+
       flash[:success] = "Successfully logged in as #{user.username}"
       sign_in_and_redirect user
     else
