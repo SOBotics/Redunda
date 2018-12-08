@@ -1,4 +1,6 @@
 module AuthenticationHelper
+  require 'open-uri'
+
   def auth_url(scope, redirect_uri)
     config = AppConfig["stack_exchange"]
     "https://stackexchange.com/oauth?client_id=#{config["client_id"]}&scope=#{scope}&redirect_uri=#{redirect_uri}"
