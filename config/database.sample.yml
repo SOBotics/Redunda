@@ -1,0 +1,19 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  host: localhost
+  port: 3306
+  username: root
+  password: root
+
+production:
+  <<: *default
+  database: redunda
+
+test:
+  <<: *default
+  database: redunda_test
+
+development:
+  <<: *default
+  database: redunda_dev
