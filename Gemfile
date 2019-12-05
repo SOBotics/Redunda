@@ -22,7 +22,7 @@ gem 'rack', '>= 2.0.6'
 gem 'sqlite3'
 gem 'mysql2'
 # Use Puma as the app server
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 gem 'sass-rails', github: "rails/sass-rails"
 
