@@ -13,7 +13,7 @@ gem 'will_paginate-bootstrap'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'octokit', '~> 4.0'
 gem 'sem_ver'
-gem 'loofah', '~> 2.3.1'
+gem 'loofah', '~> 2.19.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.0.beta1'
